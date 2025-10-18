@@ -14,6 +14,6 @@ public class ControlMapping {
     }
 
     public float getPValue() {
-        return this.gamepad.left_stick_y;
+        return this.gamepad.right_stick_y;
     }
 }

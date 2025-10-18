@@ -31,6 +31,10 @@ public class PID_Test extends LinearOpMode {
             motor1.setPower(drivePower);
 
             motor2.setPower(drivePower * pid_p);
+
+            telemetry.addData("drivePower", drivePower);
+            telemetry.addData("pid_d", pid_p);
+            telemetry.update();
         }
     }
 }
