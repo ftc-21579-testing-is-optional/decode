@@ -35,6 +35,9 @@ public class PID_Test extends LinearOpMode {
             telemetry.addData("drivePower", drivePower);
             telemetry.addData("pid_d", pid_p);
             telemetry.update();
+
+            sleep(10);
+            idle();
         }
     }
 }
