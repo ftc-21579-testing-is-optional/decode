@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.game.Artifact;
+import org.firstinspires.ftc.teamcode.common.util.DcMotorEnc;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,13 +12,16 @@ import java.util.List;
 
 public class Carousel {
     private final Bot bot;
-    private final ArrayList<Artifact> artifacts = new ArrayList<>(3);
+    private int capacity;
+    private final ArrayList<Artifact> artifacts = new ArrayList<>(capacity);
 
-    DcMotor carouselMotor;
+//    DcMotor carouselMotor;
+    DcMotorEnc carouselMotor;
 
     public Carousel(Bot bot) {
         this.bot = bot;
-        this.carouselMotor = this.bot.hardwareMap.get(DcMotor.class, "motor0");
+//        this.carouselMotor = this.bot.hardwareMap.get(DcMotor.class, "motor0");
+        this.carouselMotor = new DcMotorEnc(this.bot.hardwareMap.get(DcMotor.class, "motor0"));
     }
 
     public Artifact removeArtifact() {
@@ -29,6 +33,11 @@ public class Carousel {
     }
 
     public void rotateCarousel() {
+        this.carouselMotor.rotateBy(360 * 2, 0.5f);
         Collections.rotate(this.artifacts, -1);
     }
+
+//    public boolean isFull() {
+//        this.artifacts.
+//    }
 }
