@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 public class CarouselTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Bot bot = new Bot(hardwareMap);
+        Bot bot = new Bot(hardwareMap, telemetry);
         Carousel carousel = new Carousel(bot);
 
         DcMotor carouselMotor = hardwareMap.get(DcMotor.class, "motor0");
