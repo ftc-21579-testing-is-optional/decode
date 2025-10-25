@@ -14,7 +14,7 @@ public class VisionTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            bot.aprilTagTest();
+            bot.visionTest();
 
             telemetry.update();
 

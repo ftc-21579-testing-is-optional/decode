@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
+import android.graphics.Color;
+import android.util.Size;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -9,13 +12,18 @@ import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.opencv.Circle;
+import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
+import org.firstinspires.ftc.vision.opencv.ColorRange;
+import org.firstinspires.ftc.vision.opencv.ImageRegion;
 
 import java.util.List;
 
 public class Vision {
     private final Bot bot;
-    private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
+    private AprilTagProcessor aprilTag;
+    private ColorBlobLocatorProcessor colorBlobLocator;
 
     private Position cameraPosition = new Position(DistanceUnit.INCH,
             0, 0, 0, 0);
@@ -25,21 +33,24 @@ public class Vision {
     public Vision(Bot bot) {
         this.bot = bot;
 
-        this.init();
+        this.initAprilTag();
+        this.initBallDetector();
+        this.initVisionPortal();
     }
 
-    public void init() {
+    public void initVisionPortal() {
+        this.visionPortal = new VisionPortal.Builder()
+                .addProcessor(this.aprilTag)
+                .addProcessor(this.colorBlobLocator)
+                .setCameraResolution(new Size(640, 480))
+                .setCamera(this.bot.hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .build();
+    }
+
+    public void initAprilTag() {
         this.aprilTag = new AprilTagProcessor.Builder()
                 .setCameraPose(this.cameraPosition, this.cameraOrientation)
                 .build();
-
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        builder.setCamera(this.bot.hardwareMap.get(WebcamName.class, "Webcam 1"));
-
-        builder.addProcessor(aprilTag);
-
-        this.visionPortal = builder.build();
     }
 
     public void telemetryAprilTag() {
@@ -72,4 +83,46 @@ public class Vision {
         this.bot.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
 
     }   // end method telemetryAprilTag()
+
+    public void initBallDetector() {
+        this.colorBlobLocator = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.ARTIFACT_PURPLE)   // Use a predefined color match
+                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.75, 0.75, 0.75, -0.75))
+                .setDrawContours(true)   // Show contours on the Stream Preview
+                .setBoxFitColor(0)       // Disable the drawing of rectangles
+                .setCircleFitColor(Color.rgb(255, 255, 0)) // Draw a circle
+                .setBlurSize(5)          // Smooth the transitions between different colors in image
+
+                // the following options have been added to fill in perimeter holes.
+                .setDilateSize(15)       // Expand blobs to fill any divots on the edges
+                .setErodeSize(15)        // Shrink blobs back to original size
+                .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
+
+                .build();
+    }
+
+    public void telemetryBallDetector() {
+        List<ColorBlobLocatorProcessor.Blob> blobs = this.colorBlobLocator.getBlobs();
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
+                100, 20000, blobs);  // filter out very small blobs.
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
+                0.6, 1, blobs);     /* filter out non-circular blobs.
+         * NOTE: You may want to adjust the minimum value depending on your use case.
+         * Circularity values will be affected by shadows, and will therefore vary based
+         * on the location of the camera on your robot and venue lighting. It is strongly
+         * encouraged to test your vision on the competition field if your event allows
+         * sensor calibration time.
+         */
+
+        for (ColorBlobLocatorProcessor.Blob b : blobs) {
+            Circle circleFit = b.getCircle();
+            this.bot.telemetry.addLine(String.format("%5.3f      %3d     (%3d,%3d)",
+                    b.getCircularity(), (int) circleFit.getRadius(), (int) circleFit.getX(), (int) circleFit.getY()));
+        }
+    }
 }
