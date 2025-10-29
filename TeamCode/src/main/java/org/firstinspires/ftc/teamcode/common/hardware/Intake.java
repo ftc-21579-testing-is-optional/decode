@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
-import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
 public class Intake {
     private final Bot bot;

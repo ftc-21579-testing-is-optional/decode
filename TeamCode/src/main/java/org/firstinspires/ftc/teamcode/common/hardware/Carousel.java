@@ -2,13 +2,12 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.game.Artifact;
 import org.firstinspires.ftc.teamcode.common.util.DcMotorEnc;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Carousel {
     private final Bot bot;

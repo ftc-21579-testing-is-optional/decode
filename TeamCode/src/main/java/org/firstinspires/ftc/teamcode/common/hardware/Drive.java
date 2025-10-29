@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.bot.Bot;
+import org.firstinspires.ftc.teamcode.common.bot.BotState;
 
 public class Drive {
     private final Bot bot;
@@ -42,8 +42,10 @@ public class Drive {
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        // Wait for the game to start (driver presses START)
-        this.bot.telemetry.addData("Status", "Initialized");
+        if (this.bot.isDebugMode()) {
+            // Wait for the game to start (driver presses START)
+            this.bot.telemetry.addData("Status", "Initialized");
+        }
     }
 
     public void setPower(double axial, double lateral, double yaw) {
@@ -97,7 +99,9 @@ public class Drive {
         backLeftDrive.setPower(backLeftPower);
         backRightDrive.setPower(backRightPower);
 
-        // Show the elapsed game time and wheel power.
-        this.bot.telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-        this.bot.telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+        if (this.bot.isDebugMode()) {
+            // Show the elapsed game time and wheel power.
+            this.bot.telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
+            this.bot.telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+        }
     }}

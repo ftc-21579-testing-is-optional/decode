@@ -4,14 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 
-@TeleOp(name = "CarouselTest")
+@TeleOp(name = "CarouselTest", group = "Test")
 public class CarouselTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         Bot bot = new Bot(hardwareMap, telemetry);
+        bot.setDebug();
+
         Carousel carousel = new Carousel(bot);
 
         DcMotor carouselMotor = hardwareMap.get(DcMotor.class, "motor0");

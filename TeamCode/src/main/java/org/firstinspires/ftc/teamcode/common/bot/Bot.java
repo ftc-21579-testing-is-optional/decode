@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.common;
+package org.firstinspires.ftc.teamcode.common.bot;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -19,6 +18,9 @@ public class Bot {
     private final Intake intake;
     private final Yeeter yeeter;
 
+    private BotState state;
+    private BotMode mode;
+
     public Bot(HardwareMap hMap, Telemetry telemetry) {
         this.hardwareMap = hMap;
         this.telemetry = telemetry;
@@ -28,10 +30,37 @@ public class Bot {
         this.carousel = new Carousel(this);
         this.intake = new Intake(this);
         this.yeeter = new Yeeter(this);
+
+        this.state = BotState.INIT;
+        this.mode = BotMode.RUN;
+    }
+
+    public void setDebug() {
+        this.mode = BotMode.DEBUG;
+    }
+
+    public BotMode getMode() {
+        return this.mode;
+    }
+
+    public boolean isDebugMode() {
+        return this.mode == BotMode.DEBUG;
+    }
+
+    public void setState(BotState state) {
+        this.state = state;
+    }
+
+    public BotState getState() {
+        return this.state;
     }
 
     public void visionTest() {
         this.vision.telemetryAprilTag();
         this.vision.telemetryBallDetector();
+    }
+
+    public void setDrivePower(double axial, double lateral, double yaw) {
+        this.drive.setPower(axial, lateral, yaw);
     }
 }
