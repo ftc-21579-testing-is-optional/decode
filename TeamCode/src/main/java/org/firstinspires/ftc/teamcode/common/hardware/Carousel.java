@@ -19,7 +19,9 @@ public class Carousel {
 
     public Carousel(Bot bot) {
         this.bot = bot;
-//        this.carouselMotor = this.bot.hardwareMap.get(DcMotor.class, "motor0");
+    }
+
+    public void init() {
         this.carouselMotor = new DcMotorEnc(this.bot.hardwareMap.get(DcMotor.class, "motor0"));
     }
 

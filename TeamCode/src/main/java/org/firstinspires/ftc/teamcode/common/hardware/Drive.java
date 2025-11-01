@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
-import org.firstinspires.ftc.teamcode.common.bot.BotState;
 
 public class Drive {
     private final Bot bot;
@@ -15,11 +14,9 @@ public class Drive {
 
     public Drive(Bot bot) {
         this.bot = bot;
-
-        this.initMotors();
     }
 
-    public void initMotors() {
+    public void init() {
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         frontLeftDrive = this.bot.hardwareMap.get(DcMotor.class, "motor0");

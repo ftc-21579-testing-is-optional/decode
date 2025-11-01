@@ -13,6 +13,10 @@ public class Yeeter {
         this.bot = bot;
     }
 
+    public void init() {
+
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -32,7 +32,9 @@ public class Vision {
 
     public Vision(Bot bot) {
         this.bot = bot;
+    }
 
+    public void init() {
         this.initAprilTag();
         this.initBallDetector();
         this.initVisionPortal();
