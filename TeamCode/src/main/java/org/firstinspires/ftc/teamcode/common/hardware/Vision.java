@@ -17,6 +17,7 @@ import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Vision {
@@ -53,6 +54,10 @@ public class Vision {
         this.aprilTag = new AprilTagProcessor.Builder()
                 .setCameraPose(this.cameraPosition, this.cameraOrientation)
                 .build();
+    }
+
+    public List<AprilTagDetection> getAprilTagDetections() {
+        return this.aprilTag.getDetections();
     }
 
     public void telemetryAprilTag() {
@@ -102,6 +107,26 @@ public class Vision {
                 .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
 
                 .build();
+    }
+
+    public List<Circle> getBallDetections() {
+        List<ColorBlobLocatorProcessor.Blob> blobs = this.colorBlobLocator.getBlobs();
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
+                100, 20000, blobs);  // filter out very small blobs.
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
+                0.6, 1, blobs); // filter out non-circular blobs.
+
+        List<Circle> detections = new ArrayList<>();
+
+        for (ColorBlobLocatorProcessor.Blob b : blobs) {
+            detections.add(b.getCircle());
+        }
+
+        return detections;
     }
 
     public void telemetryBallDetector() {

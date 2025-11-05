@@ -10,6 +10,9 @@ import org.firstinspires.ftc.teamcode.common.hardware.Drive;
 import org.firstinspires.ftc.teamcode.common.hardware.Intake;
 import org.firstinspires.ftc.teamcode.common.hardware.Vision;
 import org.firstinspires.ftc.teamcode.common.hardware.Yeeter;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.List;
 
 public class Bot {
     public final HardwareMap hardwareMap;
@@ -35,27 +38,29 @@ public class Bot {
         this.intake = new Intake(this);
         this.yeeter = new Yeeter(this);
 
-//        this.drive.init();
-//        this.vision.init();
-        this.colorSensor.init();
-//        this.carousel.init();
-//        this.intake.init();
-//        this.yeeter.init();
-
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;
+    }
+
+    public void initSubSystems() {
+        this.drive.init();
+        this.vision.init();
+        this.colorSensor.init();
+        this.carousel.init();
+        this.intake.init();
+        this.yeeter.init();
     }
 
     public void setDebug() {
         this.mode = BotMode.DEBUG;
     }
 
-    public BotMode getMode() {
-        return this.mode;
-    }
-
     public boolean isDebugMode() {
         return this.mode == BotMode.DEBUG;
+    }
+
+    public BotMode getMode() {
+        return this.mode;
     }
 
     public void setState(BotState state) {
@@ -66,13 +71,17 @@ public class Bot {
         return this.state;
     }
 
+    public void setDrivePower(double axial, double lateral, double yaw) {
+        this.drive.setPower(axial, lateral, yaw);
+    }
+
+    public List<AprilTagDetection> getAprilTagDetections() {
+        return this.vision.getAprilTagDetections();
+    }
+
     public void visionTest() {
         this.vision.telemetryAprilTag();
         this.vision.telemetryBallDetector();
-    }
-
-    public void setDrivePower(double axial, double lateral, double yaw) {
-        this.drive.setPower(axial, lateral, yaw);
     }
 
     public void colorSensorTest() {
