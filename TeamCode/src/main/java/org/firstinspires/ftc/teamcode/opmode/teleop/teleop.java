@@ -16,8 +16,9 @@ public class teleop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         this.bot = new Bot(this.hardwareMap, this.telemetry);
         this.bot.initSubSystems();
+        this.bot.setDebug();
 
-        ControlMapping controls = new ControlMapping(gamepad1, 0.10);
+        ControlMapping controls = new ControlMapping(gamepad1, deadzone);
 
         this.waitForStart();
 
@@ -26,11 +27,15 @@ public class teleop extends LinearOpMode {
 //            double lateral =  Math.abs(gamepad1.left_stick_x) > this.deadzone ? gamepad1.left_stick_x : 0;
 //            double yaw     =  gamepad1.right_stick_x;
 
+            controls.updateStatefulInput();
+
             double axial   = controls.getMotionAxial();
             double lateral = controls.getMotionLateral();
             double yaw     = controls.getMotionYaw();
 
             bot.setDrivePower(axial, lateral, yaw);
+            bot.setCarouselDirection(controls.getCarouselDirection());
+            bot.setIntakeDirection(controls.getIntakeDirection());
 
             this.telemetry.update();
 

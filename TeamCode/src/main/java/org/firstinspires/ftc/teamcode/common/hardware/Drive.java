@@ -41,7 +41,7 @@ public class Drive {
 
         if (this.bot.isDebugMode()) {
             // Wait for the game to start (driver presses START)
-            this.bot.telemetry.addData("Status", "Initialized");
+            this.bot.telemetry.addData("Drive", "Initialized");
         }
     }
 
@@ -98,7 +98,7 @@ public class Drive {
 
         if (this.bot.isDebugMode()) {
             // Show the elapsed game time and wheel power.
-            this.bot.telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-            this.bot.telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            this.bot.telemetry.addData("Drive Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
+            this.bot.telemetry.addData("Drive Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
         }
     }}

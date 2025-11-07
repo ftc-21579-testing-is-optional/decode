@@ -14,7 +14,7 @@ public class CarouselTest extends LinearOpMode {
         Bot bot = new Bot(hardwareMap, telemetry);
         bot.setDebug();
 
-        Carousel carousel = new Carousel(bot);
+        Carousel carousel = new Carousel(bot, 1);
 
         DcMotor carouselMotor = hardwareMap.get(DcMotor.class, "motor0");
 

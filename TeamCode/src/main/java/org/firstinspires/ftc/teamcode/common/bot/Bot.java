@@ -17,6 +17,7 @@ import java.util.List;
 public class Bot {
     public final HardwareMap hardwareMap;
     public final Telemetry telemetry;
+
     private final Drive drive;
     private final Vision vision;
     private final ColorSensor colorSensor;
@@ -34,9 +35,9 @@ public class Bot {
         this.drive = new Drive(this);
         this.vision = new Vision(this);
         this.colorSensor = new ColorSensor(this);
-        this.carousel = new Carousel(this);
-        this.intake = new Intake(this);
-        this.yeeter = new Yeeter(this);
+        this.carousel = new Carousel(this, 0.25);
+        this.intake = new Intake(this, 0.25);
+        this.yeeter = new Yeeter(this, 1.0);
 
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;
@@ -44,11 +45,11 @@ public class Bot {
 
     public void initSubSystems() {
         this.drive.init();
-        this.vision.init();
-        this.colorSensor.init();
+//        this.vision.init();
+//        this.colorSensor.init();
         this.carousel.init();
         this.intake.init();
-        this.yeeter.init();
+//        this.yeeter.init();
     }
 
     public void setDebug() {
@@ -73,6 +74,14 @@ public class Bot {
 
     public void setDrivePower(double axial, double lateral, double yaw) {
         this.drive.setPower(axial, lateral, yaw);
+    }
+
+    public void setCarouselDirection(int direction) {
+        this.carousel.setRotationDirection(direction);
+    }
+
+    public void setIntakeDirection(int direction) {
+        this.intake.setRotationDirection(direction);
     }
 
     public List<AprilTagDetection> getAprilTagDetections() {
