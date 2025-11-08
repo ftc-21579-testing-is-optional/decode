@@ -44,7 +44,7 @@ public class AutoThatMoves extends LinearOpMode {
             backLeftDrive.setPower(power);
             backRightDrive.setPower(power);
 
-            if (runtime.seconds() == 10) {
+            if (runtime.seconds() >= 10) {
                 power = 0;
             }
 

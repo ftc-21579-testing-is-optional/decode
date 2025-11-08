@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,6 +14,10 @@ public class Drive extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
+    private DcMotor spinner = null;
+    private DcMotor yeeter1 = null;
+    private DcMotor yeeter2 = null;
+    private CRServo pusher = null;
 
     @Override
     public void runOpMode() {
@@ -21,6 +26,12 @@ public class Drive extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "motor1");
         frontRightDrive = hardwareMap.get(DcMotor.class, "motor2");
         backRightDrive = hardwareMap.get(DcMotor.class, "motor3");
+
+        spinner = hardwareMap.get(DcMotor.class, "expmotor0");
+        yeeter1 = hardwareMap.get(DcMotor.class, "expmotor1");
+        yeeter2 = hardwareMap.get(DcMotor.class, "expmotor2");
+
+        pusher = hardwareMap.get(CRServo.class, "servo0");
 
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -77,6 +88,40 @@ public class Drive extends LinearOpMode {
                 backLeftDrive.setPower(0);
                 backRightDrive.setPower(0);
             }
+
+
+
+            if (gamepad1.square){
+                spinner.setPower(-1.0);
+                yeeter1.setPower(1.0);
+                yeeter2.setPower(-1.0);
+
+            } else if (gamepad1.circle) {
+                spinner.setPower(1.0);
+                yeeter1.setPower(-1.0);
+                yeeter2.setPower(1.0);
+
+            } else {
+                spinner.setPower(0);
+                yeeter1.setPower(0);
+                yeeter2.setPower(0);
+            }
+
+            if (gamepad1.x){
+                pusher.setPower(-1.0);
+
+
+            } else if (gamepad1.triangle) {
+                pusher.setPower(1.0);
+
+            } else {
+                pusher.setPower(0);
+
+            }
+
+
+
+
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Joystick Axes", "axial=%.2f, lateral=%.2f, yaw=%.2f", axial, lateral, yaw);
