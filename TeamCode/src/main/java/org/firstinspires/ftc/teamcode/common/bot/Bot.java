@@ -35,8 +35,8 @@ public class Bot {
         this.drive = new Drive(this);
         this.vision = new Vision(this);
         this.colorSensor = new ColorSensor(this);
-        this.carousel = new Carousel(this, 0.25);
-        this.intake = new Intake(this, 0.25);
+        this.carousel = new Carousel(this, 1.00);
+        this.intake = new Intake(this, 1.00);
         this.yeeter = new Yeeter(this, 1.0);
 
         this.state = BotState.INIT;
@@ -44,7 +44,7 @@ public class Bot {
     }
 
     public void initSubSystems() {
-        this.drive.init();
+//        this.drive.init();
 //        this.vision.init();
 //        this.colorSensor.init();
         this.carousel.init();
