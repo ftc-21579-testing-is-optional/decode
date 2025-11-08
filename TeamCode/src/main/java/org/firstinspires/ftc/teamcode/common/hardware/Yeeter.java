@@ -54,4 +54,9 @@ public class Yeeter {
             this.setActive(false);
         }
     }
+
+    public void setPower(float power) {
+        this.leftMotor.setPower(power);
+        this.rightMotor.setPower(-power);
+    }
 }

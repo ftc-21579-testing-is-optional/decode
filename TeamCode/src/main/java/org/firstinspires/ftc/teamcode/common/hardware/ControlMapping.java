@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 public class ControlMapping {
     private Gamepad gamepad;
     private double deadzone;
-//    private boolean padUpCurrent = false, padUpPrevious = false;
-//    private boolean padDownCurrent = false, padDownPrevious = false;
 
     public ControlMapping(Gamepad gamepad, double deadzone) {
         this.gamepad = gamepad;
@@ -37,23 +35,34 @@ public class ControlMapping {
         return (this.gamepad.dpad_down ? -1 : 0) + (this.gamepad.dpad_up ? 1 : 0);
     }
 
-    public void updateStatefulInput() {
-//        this.updateIntakeState();
+    public float getScooperPosition() {
+        return this.scooperPos;
     }
 
-//    private void updateIntakeState() {
-//        this.padUpPrevious = this.padUpCurrent;
-//        this.padUpCurrent = this.gamepad.dpad_up;
-//
-//        this.padDownPrevious = this.padDownCurrent;
-//        this.padDownCurrent = this.gamepad.dpad_down;
-//
-//        if (this.padUpCurrent && !this.padUpPrevious) {
-//            this.intakeDirection += (this.intakeDirection < 1) ? 1 : 0;
-//        }
-//
-//        if (this.padDownCurrent && !this.padDownPrevious) {
-//            this.intakeDirection -= (this.intakeDirection > -1) ? 1 : 0;
-//        }
-//    }
+    public float getYeeterPower() {
+        return this.gamepad.left_trigger - this.gamepad.right_trigger;
+    }
+
+    public void updateStatefulInput() {
+        this.updateScooperPos();
+    }
+
+    private boolean padLeftCurrent = false, padLeftPrevious = false;
+    private boolean padRightCurrent = false, padRightPrevious = false;
+    private float scooperPos;
+    private void updateScooperPos() {
+        this.padLeftPrevious = this.padLeftCurrent;
+        this.padLeftCurrent = this.gamepad.dpad_up;
+
+        this.padRightPrevious = this.padRightCurrent;
+        this.padRightCurrent = this.gamepad.dpad_down;
+
+        if (this.padLeftCurrent && !this.padLeftPrevious) {
+            this.scooperPos += (this.scooperPos < 1) ? 0.1f : 0;
+        }
+
+        if (this.padRightCurrent && !this.padRightPrevious) {
+            this.scooperPos -= (this.scooperPos > 0) ? 0.1f : 0;
+        }
+    }
 }

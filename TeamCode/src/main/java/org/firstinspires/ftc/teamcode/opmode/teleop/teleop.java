@@ -36,6 +36,8 @@ public class teleop extends LinearOpMode {
             bot.setDrivePower(axial, lateral, yaw);
             bot.setCarouselDirection(controls.getCarouselDirection());
             bot.setIntakeDirection(controls.getIntakeDirection());
+            bot.setScooperPosition(controls.getScooperPosition());
+            bot.setYeeterPower(controls.getYeeterPower());
 
             this.telemetry.update();
 
