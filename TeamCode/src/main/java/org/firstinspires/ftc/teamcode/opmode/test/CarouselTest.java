@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 
-@TeleOp(name = "CarouselTest", group = "Test")
+//@TeleOp(name = "CarouselTest", group = "Test")
 public class CarouselTest extends LinearOpMode {
     @Override
     public void runOpMode() {

@@ -8,37 +8,57 @@ import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
 
 @TeleOp(name = "teleop")
 public class teleop extends LinearOpMode {
-    Bot bot;
 
-    float deadzone = 0.15f;
+    private Bot bot;
+    private final float deadzone = 0.15f;
+    private boolean yeeterActive = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        this.bot = new Bot(this.hardwareMap, this.telemetry);
-        this.bot.initSubSystems();
-        this.bot.setDebug();
+        bot = new Bot(this.hardwareMap, this.telemetry);
+        bot.initSubSystems();
+        bot.setDebug();
 
         ControlMapping controls = new ControlMapping(gamepad1, deadzone);
 
         this.waitForStart();
 
-        while (this.opModeIsActive()) {
-//            double axial   = -gamepad1.left_stick_y;
-//            double lateral =  Math.abs(gamepad1.left_stick_x) > this.deadzone ? gamepad1.left_stick_x : 0;
-//            double yaw     =  gamepad1.right_stick_x;
-
+        while (opModeIsActive()) {
+            // Update input states
             controls.updateStatefulInput();
 
-            double axial   = controls.getMotionAxial();
+            // Drive control
+            double axial = controls.getMotionAxial();
             double lateral = controls.getMotionLateral();
-            double yaw     = controls.getMotionYaw();
-
+            double yaw = controls.getMotionYaw();
             bot.setDrivePower(axial, lateral, yaw);
+
+            // Carousel and intake
             bot.setCarouselDirection(controls.getCarouselDirection());
-            bot.setIntakeDirection(controls.getIntakeDirection());
 
-            this.telemetry.update();
+            if (controls.getIntakeToggleState()) {
+                bot.setIntakeDirection(1); // turn intake on
+            } else {
+                bot.setIntakeDirection(0); // turn intake off
+            }
 
+            // SCOOPER CONTROL
+            int scooperCommand = controls.getScooperToggleCommand();
+            if (scooperCommand != -1) {
+                bot.getScooper().setState(scooperCommand);
+            }
+
+
+            if (controls.getYeeterToggleState()) {
+                bot.getYeeter().activate();   // motors on
+            } else {
+                bot.getYeeter().deactivate(); // motors off
+            }
+
+            // Telemetry
+            telemetry.update();
+
+            // Loop delay
             sleep(10);
             idle();
         }

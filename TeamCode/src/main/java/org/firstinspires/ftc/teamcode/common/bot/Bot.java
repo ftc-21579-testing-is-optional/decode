@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.common.hardware.Drive;
 import org.firstinspires.ftc.teamcode.common.hardware.Intake;
+import org.firstinspires.ftc.teamcode.common.hardware.Scooper;
 import org.firstinspires.ftc.teamcode.common.hardware.Vision;
 import org.firstinspires.ftc.teamcode.common.hardware.Yeeter;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -23,6 +24,7 @@ public class Bot {
     private final ColorSensor colorSensor;
     private final Carousel carousel;
     private final Intake intake;
+    private final Scooper scooper;
     private final Yeeter yeeter;
 
     private BotState state;
@@ -37,6 +39,7 @@ public class Bot {
         this.colorSensor = new ColorSensor(this);
         this.carousel = new Carousel(this, 1.00);
         this.intake = new Intake(this, 1.00);
+        this.scooper = new Scooper(this);
         this.yeeter = new Yeeter(this, 1.0);
 
         this.state = BotState.INIT;
@@ -44,12 +47,13 @@ public class Bot {
     }
 
     public void initSubSystems() {
-//        this.drive.init();
+        this.drive.init();
 //        this.vision.init();
 //        this.colorSensor.init();
         this.carousel.init();
         this.intake.init();
-//        this.yeeter.init();
+        this.scooper.init();
+        this.yeeter.init();
     }
 
     public void setDebug() {
@@ -97,4 +101,12 @@ public class Bot {
         ArtifactColor color = this.colorSensor.classify();
         this.telemetry.addData("Classification (Bot)", color);
     }
+
+    public Scooper getScooper() {
+        return this.scooper;
+    }
+    public Yeeter getYeeter() {
+        return this.yeeter;
+    }
+
 }
