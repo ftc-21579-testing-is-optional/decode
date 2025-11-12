@@ -9,8 +9,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
-@Autonomous(name = "auto")
-public class auto extends LinearOpMode {
+@Autonomous(name = "autoRed")
+public class autoRed extends LinearOpMode {
     Bot bot;
 
     ElapsedTime time;
@@ -25,7 +25,14 @@ public class auto extends LinearOpMode {
         this.waitForStart();
 
         while (this.opModeIsActive()) {
-            List<AprilTagDetection> detections = this.bot.getAprilTagDetections();
+            //List<AprilTagDetection> detections = this.bot.getAprilTagDetections();
+
+
+            if (time.seconds() <= 3) {
+                bot.setDrivePower(0.5, 0, 0);
+            } else {
+                bot.setDrivePower(0, 0, 0);
+            }
 
             this.telemetry.update();
 
