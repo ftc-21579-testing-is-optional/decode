@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
+import org.firstinspires.ftc.teamcode.common.hardware.Yeeter;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class autoBlue extends LinearOpMode {
 
         this.waitForStart();
 
+        bot.getYeeter().activate();
+        bot.getScooper().setState(0);
+
         while (this.opModeIsActive()) {
             //List<AprilTagDetection> detections = this.bot.getAprilTagDetections();
 
@@ -34,6 +38,18 @@ public class autoBlue extends LinearOpMode {
             } else {
                 bot.setDrivePower(0, 0, 0);
             }
+
+            if (time.seconds() >= 3) {
+                bot.getScooper().setState(1);
+
+                bot.setCarouselDirection(1);
+
+                bot.setCarouselDirection(0);
+
+                bot.getScooper().setState(2);
+            }
+
+
 
             this.telemetry.update();
 
