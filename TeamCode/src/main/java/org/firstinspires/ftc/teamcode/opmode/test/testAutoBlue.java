@@ -1,20 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmode.auto;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
-import org.firstinspires.ftc.teamcode.common.hardware.Yeeter;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.List;
 
 @Autonomous(name = "autoBlue")
-public class autoBlue extends LinearOpMode {
+@Disabled
+public class testAutoBlue extends LinearOpMode {
     Bot bot;
-
-
 
     ElapsedTime time;
 

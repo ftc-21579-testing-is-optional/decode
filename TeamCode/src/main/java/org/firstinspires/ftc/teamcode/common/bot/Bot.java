@@ -109,4 +109,8 @@ public class Bot {
         return this.yeeter;
     }
 
+    public void activateYeeter() {
+        this.yeeter.activate();
+    }
+
 }
