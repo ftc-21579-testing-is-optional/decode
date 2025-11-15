@@ -55,9 +55,9 @@ public class ControlMapping {
     public int getScooperToggleCommand() {
         int command = -1;
 
-        if (gamepad.square && !prevSquare) command = 0;
-        if (gamepad.circle && !prevCircle) command = 1;
-        if (gamepad.triangle && !prevTriangle) command = 2;
+        if (gamepad.square) command = 0;
+        if (gamepad.circle) command = 1;
+        if (gamepad.triangle) command = 2;
 
         // Update previous states
         prevSquare = gamepad.square;

@@ -23,6 +23,8 @@ public class teleop extends LinearOpMode {
 
         this.waitForStart();
 
+        double scooperPos = 0.0;
+
         while (opModeIsActive()) {
             // Update input states
             controls.updateStatefulInput();
@@ -43,10 +45,22 @@ public class teleop extends LinearOpMode {
             }
 
             // SCOOPER CONTROL
-            int scooperCommand = controls.getScooperToggleCommand();
-            if (scooperCommand != -1) {
-                bot.getScooper().setState(scooperCommand);
+//            int scooperCommand = controls.getScooperToggleCommand();
+//            if (scooperCommand != -1) {
+//                bot.getScooper().setState(scooperCommand);
+//            }
+
+            if (gamepad1.square) {
+                scooperPos -= (scooperPos - 0.01 > 0) ? 0.01 : 0.0;
             }
+
+            if (gamepad1.triangle) {
+                scooperPos += (scooperPos + 0.01 < 1.0) ? 0.01 : 0.0;
+            }
+
+            this.telemetry.addData("scooperPos", scooperPos);
+
+            bot.getScooper().setPos(scooperPos);
 
 
             if (controls.getYeeterToggleState()) {

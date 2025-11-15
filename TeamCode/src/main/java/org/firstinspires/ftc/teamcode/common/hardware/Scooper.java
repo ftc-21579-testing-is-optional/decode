@@ -15,7 +15,7 @@ public class Scooper {
 
     public void init() {
         if (servo instanceof PwmControl) {
-            ((PwmControl) servo).setPwmRange(new PwmControl.PwmRange(400, 2300));
+            ((PwmControl) servo).setPwmRange(new PwmControl.PwmRange(400, 2500));
         }
         servo.setPosition(0.1);
         lastState = 0;
@@ -29,12 +29,16 @@ public class Scooper {
         if (state == lastState) return; // only move if new command
 
         switch (state) {
-            case 0: servo.setPosition(0.1); break;
+            case 0: servo.setPosition(1.0); break;
             case 1: servo.setPosition(0.4); break;
-            case 2: servo.setPosition(1.0); break;
+            case 2: servo.setPosition(0.1); break;
             default: return;
         }
 
         lastState = state;
+    }
+
+    public void setPos(double value) {
+        this.servo.setPosition(value);
     }
 }
