@@ -17,7 +17,7 @@ public class Scooper {
         if (servo instanceof PwmControl) {
             ((PwmControl) servo).setPwmRange(new PwmControl.PwmRange(400, 2500));
         }
-        servo.setPosition(0.1);
+//        servo.setPosition(0.1);
         lastState = 0;
     }
 

@@ -12,6 +12,8 @@ public class Yeeter {
     private DcMotor rightMotor;
     private boolean active;
 
+    private boolean activeLess;
+
     public Yeeter(Bot bot, double rotationPower) {
         this.bot = bot;
         this.rotationPower = rotationPower;
@@ -33,8 +35,18 @@ public class Yeeter {
         this.rightMotor.setPower(active ? -this.rotationPower : 0);
     }
 
+    private void setActiveLess(boolean activeLess) {
+        this.activeLess = activeLess;
+
+        this.leftMotor.setPower(activeLess ? this.rotationPower * 0.75 : 0);
+        this.rightMotor.setPower(activeLess ? -this.rotationPower * 0.75 : 0);
+    }
+
     public void activate() {
         this.setActive(true);
+    }
+    public void activateLess() {
+        this.setActiveLess(true);
     }
 
     public void deactivate() {

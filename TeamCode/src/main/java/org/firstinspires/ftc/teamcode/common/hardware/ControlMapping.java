@@ -36,15 +36,15 @@ public class ControlMapping {
         return (this.gamepad.left_bumper ? -1 : 0) + (this.gamepad.right_bumper ? 1 : 0);
     }
 
-    private boolean prevLeftStick = false;  // track previous press
+    private boolean prevDpadDown = false;  // track previous press
     private boolean intakeState = false;    // current toggle state
 
     /** Call each loop; returns true if intake should be active */
     public boolean getIntakeToggleState() {
-        if (gamepad.left_stick_button && !prevLeftStick) {
+        if (gamepad.dpad_down && !prevDpadDown) {
             intakeState = !intakeState;  // flip toggle
         }
-        prevLeftStick = gamepad.left_stick_button;
+        prevDpadDown = gamepad.dpad_down;
         return intakeState;
     }
 
@@ -67,23 +67,36 @@ public class ControlMapping {
         return command;
     }
 
-    private boolean prevCross = false;  // track previous Cross press
+    private boolean prevDpadUp = false;  // track previous Cross press
     private boolean yeeterState = false; // current toggle state
 
     /** Call each loop; returns true if Yeeter should be active */
     public boolean getYeeterToggleState() {
-        // Detect new press (Cross = gamepad.cross on PS)
-        if (gamepad.cross && !prevCross) {
+        // Detect new press
+        if (gamepad.dpad_up && !prevDpadUp) {
             yeeterState = !yeeterState; // flip toggle
         }
 
         // Update previous state
-        prevCross = gamepad.cross;
+        prevDpadUp = gamepad.dpad_up;
 
         // Return current toggle state
         return yeeterState;
     }
 
+    private boolean prevDpadLeft = false;  // track previous Cross pres
+    public boolean getYeeterToggleStateLess() {
+        // Detect new press
+        if (gamepad.dpad_left && !prevDpadLeft) {
+            yeeterState = !yeeterState; // flip toggle
+        }
+
+        // Update previous state
+        prevDpadLeft = gamepad.dpad_left;
+
+        // Return current toggle state
+        return yeeterState;
+    }
 
 
 

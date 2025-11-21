@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
@@ -51,20 +52,32 @@ public class teleop extends LinearOpMode {
 //            }
 
             if (gamepad1.square) {
-                scooperPos -= (scooperPos - 0.01 > 0) ? 0.01 : 0.0;
+//                scooperPos -= (scooperPos - 0.01 > 0) ? 0.01 : 0.0;
+                scooperPos = 0.0;
+                bot.getScooper().setPos(scooperPos);
             }
 
-            if (gamepad1.triangle) {
-                scooperPos += (scooperPos + 0.01 < 1.0) ? 0.01 : 0.0;
+            else if (gamepad1.circle) {
+                scooperPos = 0.25;
+                bot.getScooper().setPos(scooperPos);
+            }
+
+            else if (gamepad1.triangle) {
+//                scooperPos += (scooperPos + 0.01 < 1.0) ? 0.01 : 0.0;
+                scooperPos = 0.8;
+                bot.getScooper().setPos(scooperPos);
             }
 
             this.telemetry.addData("scooperPos", scooperPos);
 
-            bot.getScooper().setPos(scooperPos);
-
-
             if (controls.getYeeterToggleState()) {
                 bot.getYeeter().activate();   // motors on
+            } else {
+                bot.getYeeter().deactivate(); // motors off
+            }
+
+            if (controls.getYeeterToggleStateLess()) {
+                bot.getYeeter().activateLess();   // motors on
             } else {
                 bot.getYeeter().deactivate(); // motors off
             }
