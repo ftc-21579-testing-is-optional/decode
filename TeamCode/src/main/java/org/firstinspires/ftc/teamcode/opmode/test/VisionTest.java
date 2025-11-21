@@ -11,10 +11,11 @@ public class VisionTest extends LinearOpMode {
     public void runOpMode() {
         Bot bot = new Bot(hardwareMap, telemetry);
         bot.setDebug();
+        bot.initVisionSystemsDebug();
 
-        waitForStart();
+        this.waitForStart();
 
-        while (opModeIsActive()) {
+        while (this.opModeIsActive()) {
             bot.visionTest();
 
             telemetry.update();

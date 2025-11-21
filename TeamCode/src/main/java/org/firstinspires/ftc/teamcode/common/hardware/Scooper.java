@@ -6,14 +6,17 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
 public class Scooper {
 
-    private final Servo servo;
+    private final Bot bot;
+    private  Servo servo;
     private int lastState = -1; // track last position to prevent jitter
 
     public Scooper(Bot bot) {
-        this.servo = bot.hardwareMap.get(Servo.class, "scooper_servo");
+        this.bot = bot;
     }
 
     public void init() {
+        this.servo = this.bot.hardwareMap.get(Servo.class, "scooper_servo");
+
         if (servo instanceof PwmControl) {
             ((PwmControl) servo).setPwmRange(new PwmControl.PwmRange(400, 2500));
         }

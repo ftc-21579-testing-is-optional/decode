@@ -56,6 +56,14 @@ public class Bot {
         this.yeeter.init();
     }
 
+    public void initVisionSystemsDebug() {
+        this.vision.init();
+    }
+
+    public void initColorSensorDebug() {
+        this.colorSensor.init();
+    }
+
     public void setDebug() {
         this.mode = BotMode.DEBUG;
     }

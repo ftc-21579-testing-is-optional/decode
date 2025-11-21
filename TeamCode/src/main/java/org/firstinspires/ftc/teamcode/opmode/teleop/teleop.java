@@ -12,6 +12,7 @@ public class teleop extends LinearOpMode {
 
     private Bot bot;
     private final float deadzone = 0.15f;
+    private final float controlCurveExponent = 2.0f;
     private boolean yeeterActive = false;
 
     @Override
@@ -20,7 +21,7 @@ public class teleop extends LinearOpMode {
         bot.initSubSystems();
         bot.setDebug();
 
-        ControlMapping controls = new ControlMapping(gamepad1, deadzone);
+        ControlMapping controls = new ControlMapping(gamepad1, deadzone, controlCurveExponent);
 
         this.waitForStart();
 

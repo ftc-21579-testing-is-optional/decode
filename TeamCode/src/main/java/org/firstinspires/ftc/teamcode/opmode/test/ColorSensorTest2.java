@@ -10,13 +10,18 @@ public class ColorSensorTest2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Bot bot = new Bot(hardwareMap, telemetry);
+        bot.initColorSensorDebug();
         bot.setDebug();
 
         waitForStart();
 
         while (opModeIsActive()) {
             bot.colorSensorTest();
+
             telemetry.update();
+
+            sleep(20);
+            idle();
         }
     }
 }

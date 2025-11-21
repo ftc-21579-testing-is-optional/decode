@@ -8,12 +8,19 @@ public class ControlMapping {
     private boolean prevTriangle = false;
     private Gamepad gamepad;
     private double deadzone;
+    private double controlCurvePower;
+
 //    private boolean padUpCurrent = false, padUpPrevious = false;
 //    private boolean padDownCurrent = false, padDownPrevious = false;
 
-    public ControlMapping(Gamepad gamepad, double deadzone) {
+    public ControlMapping(Gamepad gamepad, double deadzone, double controlCurveExponent) {
         this.gamepad = gamepad;
         this.deadzone = deadzone;
+        this.controlCurvePower = controlCurveExponent;
+    }
+
+    private double applyCurve(double value) {
+        return Math.signum(value) * Math.abs(Math.pow(value, this.controlCurvePower));
     }
 
     private double applyDeadzone(double value) {
@@ -97,11 +104,6 @@ public class ControlMapping {
         // Return current toggle state
         return yeeterState;
     }
-
-
-
-
-
 
 //    private void updateIntakeState() {
 //        this.padUpPrevious = this.padUpCurrent;
