@@ -9,8 +9,10 @@ import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.common.hardware.Drive;
 import org.firstinspires.ftc.teamcode.common.hardware.Intake;
 import org.firstinspires.ftc.teamcode.common.hardware.Scooper;
+import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.Vision;
 import org.firstinspires.ftc.teamcode.common.hardware.Yeeter;
+import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public class Bot {
         this.carousel = new Carousel(this, 1.00);
         this.intake = new Intake(this, 1.00);
         this.scooper = new Scooper(this);
-        this.yeeter = new Yeeter(this, 1.0);
+        this.yeeter = new Yeeter(this, 1.0, 0.75);
 
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;
@@ -96,6 +98,14 @@ public class Bot {
         this.intake.setRotationDirection(direction);
     }
 
+    public void setScooperState(ScooperState state) {
+        this.scooper.setState(state);
+    }
+
+    public void setYeeterMode(YeeterMode mode) {
+        this.yeeter.setMode(mode);
+    }
+
     public List<AprilTagDetection> getAprilTagDetections() {
         return this.vision.getAprilTagDetections();
     }
@@ -110,15 +120,15 @@ public class Bot {
         this.telemetry.addData("Classification (Bot)", color);
     }
 
-    public Scooper getScooper() {
-        return this.scooper;
-    }
-    public Yeeter getYeeter() {
-        return this.yeeter;
-    }
-
-    public void activateYeeter() {
-        this.yeeter.activate();
-    }
+//    public Scooper getScooper() {
+//        return this.scooper;
+//    }
+//    public Yeeter getYeeter() {
+//        return this.yeeter;
+//    }
+//
+//    public void activateYeeter() {
+//        this.yeeter.activate();
+//    }
 
 }

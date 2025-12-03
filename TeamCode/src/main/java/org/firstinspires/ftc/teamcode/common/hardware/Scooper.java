@@ -8,7 +8,7 @@ public class Scooper {
 
     private final Bot bot;
     private  Servo servo;
-    private int lastState = -1; // track last position to prevent jitter
+    private ScooperState lastState = ScooperState.UNKNOWN; // track last position to prevent jitter
 
     public Scooper(Bot bot) {
         this.bot = bot;
@@ -20,28 +20,27 @@ public class Scooper {
         if (servo instanceof PwmControl) {
             ((PwmControl) servo).setPwmRange(new PwmControl.PwmRange(400, 2500));
         }
-//        servo.setPosition(0.1);
-        lastState = 0;
     }
 
-    /**
-     * Set servo state via toggle buttons:
-     * 0 -> X, 1 -> Circle, 2 -> Triangle
-     */
-    public void setState(int state) {
-        if (state == lastState) return; // only move if new command
-
-        switch (state) {
-            case 0: servo.setPosition(1.0); break;
-            case 1: servo.setPosition(0.4); break;
-            case 2: servo.setPosition(0.1); break;
-            default: return;
+    public void setState(ScooperState state) {
+        if (state == this.lastState) {
+            return; // only move if new command
         }
 
-        lastState = state;
-    }
+        switch (state) {
+            case RECYCLE:
+                this.servo.setPosition(0.0);
+                break;
 
-    public void setPos(double value) {
-        this.servo.setPosition(value);
+            case CATCH:
+                this.servo.setPosition(0.25);
+                break;
+
+            case YEET:
+                this.servo.setPosition(0.8);
+                break;
+        }
+
+        this.lastState = state;
     }
 }

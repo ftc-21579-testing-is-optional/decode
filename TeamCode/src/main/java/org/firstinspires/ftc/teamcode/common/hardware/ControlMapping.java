@@ -3,15 +3,9 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class ControlMapping {
-    private boolean prevSquare = false;
-    private boolean prevCircle = false;
-    private boolean prevTriangle = false;
     private Gamepad gamepad;
     private double deadzone;
     private double controlCurvePower;
-
-//    private boolean padUpCurrent = false, padUpPrevious = false;
-//    private boolean padDownCurrent = false, padDownPrevious = false;
 
     public ControlMapping(Gamepad gamepad, double deadzone, double controlCurveExponent) {
         this.gamepad = gamepad;
@@ -44,32 +38,31 @@ public class ControlMapping {
     }
 
     private boolean prevDpadDown = false;  // track previous press
-    private boolean intakeState = false;    // current toggle state
+    private boolean intakeState = false;   // current toggle state
 
     /** Call each loop; returns true if intake should be active */
     public boolean getIntakeToggleState() {
-        if (gamepad.dpad_down && !prevDpadDown) {
-            intakeState = !intakeState;  // flip toggle
+        if (this.gamepad.dpad_down && !this.prevDpadDown) {
+            this.intakeState = !this.intakeState;  // flip toggle
         }
-        prevDpadDown = gamepad.dpad_down;
-        return intakeState;
+
+        this.prevDpadDown = gamepad.dpad_down;
+
+        return this.intakeState;
     }
 
-    public void updateStatefulInput() {
-//        this.updateIntakeState();
-    }
+    public ScooperState getScooperState() {
+        ScooperState command = ScooperState.UNKNOWN;
 
-    public int getScooperToggleCommand() {
-        int command = -1;
-
-        if (gamepad.square) command = 0;
-        if (gamepad.circle) command = 1;
-        if (gamepad.triangle) command = 2;
-
-        // Update previous states
-        prevSquare = gamepad.square;
-        prevCircle = gamepad.circle;
-        prevTriangle = gamepad.triangle;
+        if (gamepad.square) {
+            command = ScooperState.RECYCLE;
+        }
+        else if (gamepad.circle) {
+            command = ScooperState.CATCH;
+        }
+        else if (gamepad.triangle) {
+            command = ScooperState.YEET;
+        }
 
         return command;
     }
@@ -80,44 +73,28 @@ public class ControlMapping {
     /** Call each loop; returns true if Yeeter should be active */
     public boolean getYeeterToggleState() {
         // Detect new press
-        if (gamepad.dpad_up && !prevDpadUp) {
-            yeeterState = !yeeterState; // flip toggle
+        if (this.gamepad.dpad_up && !this.prevDpadUp) {
+            this.yeeterState = !this.yeeterState; // flip toggle
         }
 
         // Update previous state
-        prevDpadUp = gamepad.dpad_up;
+        this.prevDpadUp = this.gamepad.dpad_up;
 
         // Return current toggle state
-        return yeeterState;
+        return this.yeeterState;
     }
 
     private boolean prevDpadLeft = false;  // track previous Cross pres
     public boolean getYeeterToggleStateLess() {
         // Detect new press
-        if (gamepad.dpad_left && !prevDpadLeft) {
-            yeeterState = !yeeterState; // flip toggle
+        if (this.gamepad.dpad_left && !this.prevDpadLeft) {
+            this.yeeterState = !this.yeeterState; // flip toggle
         }
 
         // Update previous state
-        prevDpadLeft = gamepad.dpad_left;
+        this.prevDpadLeft = this.gamepad.dpad_left;
 
         // Return current toggle state
-        return yeeterState;
+        return this.yeeterState;
     }
-
-//    private void updateIntakeState() {
-//        this.padUpPrevious = this.padUpCurrent;
-//        this.padUpCurrent = this.gamepad.dpad_up;
-//
-//        this.padDownPrevious = this.padDownCurrent;
-//        this.padDownCurrent = this.gamepad.dpad_down;
-//
-//        if (this.padUpCurrent && !this.padUpPrevious) {
-//            this.intakeDirection += (this.intakeDirection < 1) ? 1 : 0;
-//        }
-//
-//        if (this.padDownCurrent && !this.padDownPrevious) {
-//            this.intakeDirection -= (this.intakeDirection > -1) ? 1 : 0;
-//        }
-//    }
 }

@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
-public enum ScooperState {
+public enum YeeterMode {
     UNKNOWN,
-    RECYCLE,
-    CATCH,
-    YEET,
+    STOP,
+    BRAKE,
+    LESS,
+    FULL,
 }

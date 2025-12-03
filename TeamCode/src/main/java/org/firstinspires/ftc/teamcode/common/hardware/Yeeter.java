@@ -7,16 +7,20 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 public class Yeeter {
     private final Bot bot;
 
-    private double rotationPower;
+    private double rotationPowerFull;
+    private double rotationPowerLess;
     private DcMotor leftMotor;
     private DcMotor rightMotor;
-    private boolean active;
 
-    private boolean activeLess;
+    private YeeterMode lastMode = YeeterMode.UNKNOWN;
 
-    public Yeeter(Bot bot, double rotationPower) {
+//    private boolean active;
+//    private boolean activeLess;
+
+    public Yeeter(Bot bot, double rotationPowerFull, double rotationPowerLess) {
         this.bot = bot;
-        this.rotationPower = rotationPower;
+        this.rotationPowerFull = rotationPowerFull;
+        this.rotationPowerLess = rotationPowerLess;
     }
 
     public void init() {
@@ -28,45 +32,87 @@ public class Yeeter {
         }
     }
 
-    private void setActive(boolean active) {
-        this.active = active;
+//    private void setActive_old(boolean active) {
+//        this.active = active;
+//
+//        this.leftMotor.setPower(active ? this.rotationPower : 0);
+//        this.rightMotor.setPower(active ? -this.rotationPower : 0);
+//    }
+//
+//    private void setActiveLess_old(boolean activeLess) {
+//        this.activeLess = activeLess;
+//
+//        this.leftMotor.setPower(activeLess ? this.rotationPower * 0.75 : 0);
+//        this.rightMotor.setPower(activeLess ? -this.rotationPower * 0.75 : 0);
+//    }
+//
+//    public void activate_old() {
+//        this.setActive(true);
+//    }
+//    public void activateLess_old() {
+//        this.setActiveLess(true);
+//    }
+//
+//    public void deactivate_old() {
+//        if (this.active) {
+//            this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//            this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//
+//            this.setActive(false);
+//        }
+//    }
+//
+//    public void brake_old() {
+//        if (this.active) {
+//            this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//            this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//            this.setActive(false);
+//        }
+//    }
 
-        this.leftMotor.setPower(active ? this.rotationPower : 0);
-        this.rightMotor.setPower(active ? -this.rotationPower : 0);
+    private void stop() {
+        this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        this.setPower(0.0);
     }
 
-    private void setActiveLess(boolean activeLess) {
-        this.activeLess = activeLess;
+    private void brake() {
+        this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        this.leftMotor.setPower(activeLess ? this.rotationPower * 0.75 : 0);
-        this.rightMotor.setPower(activeLess ? -this.rotationPower * 0.75 : 0);
+        this.setPower(0.0);
     }
 
-    public void activate() {
-        this.setActive(true);
-    }
-    public void activateLess() {
-        this.setActiveLess(true);
+    private void setPower(double power) {
+        this.leftMotor.setPower(power);
+        this.rightMotor.setPower(-power);
     }
 
-    public void deactivate() {
-        if (this.active) {
-            this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-            this.setActive(false);
+    public void setMode(YeeterMode mode) {
+        if (mode == this.lastMode) {
+            return;
         }
-    }
 
-    public void brake() {
-        if (this.active) {
-            this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        switch (mode) {
+            case STOP:
+                this.stop();
+                break;
 
-            this.setActive(false);
+            case BRAKE:
+                this.brake();
+                break;
+
+            case LESS:
+                this.setPower(this.rotationPowerLess);
+                break;
+
+            case FULL:
+                this.setPower(this.rotationPowerFull);
+                break;
         }
+
+        this.lastMode = mode;
     }
-
-
-
 }
