@@ -13,9 +13,9 @@ public class ColorSensorTest2 extends LinearOpMode {
         bot.initColorSensorDebug();
         bot.setDebug();
 
-        waitForStart();
+        this.waitForStart();
 
-        while (opModeIsActive()) {
+        while (this.opModeIsActive()) {
             bot.colorSensorTest();
 
             telemetry.update();

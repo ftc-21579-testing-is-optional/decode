@@ -2,18 +2,20 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.common.config.Config;
+
 public class ControlMapping {
     private Gamepad gamepad;
     private double deadzone;
     private double controlCurvePower;
 
-    public ControlMapping(Gamepad gamepad, double deadzone, double controlCurveExponent) {
+    public ControlMapping(Gamepad gamepad) {
         this.gamepad = gamepad;
-        this.deadzone = deadzone;
-        this.controlCurvePower = controlCurveExponent;
+        this.deadzone = Config.DEADZONE;
+        this.controlCurvePower = Config.CONTROL_CURVE_EXP;
     }
 
-    private double applyCurve(double value) {
+    private double applyControlCurve(double value) {
         return Math.signum(value) * Math.abs(Math.pow(value, this.controlCurvePower));
     }
 
@@ -21,16 +23,20 @@ public class ControlMapping {
         return Math.abs(value) > this.deadzone ? value : 0;
     }
 
+    private double applyMutations(double value) {
+        return this.applyControlCurve(this.applyDeadzone(value));
+    }
+
     public double getMotionAxial() {
-        return -this.applyDeadzone(this.gamepad.left_stick_y);
+        return -this.applyMutations(this.gamepad.left_stick_y);
     }
 
     public double getMotionLateral() {
-        return this.applyDeadzone(this.gamepad.left_stick_x);
+        return this.applyMutations(this.gamepad.left_stick_x);
     }
 
     public double getMotionYaw() {
-        return this.applyDeadzone(this.gamepad.right_stick_x);
+        return this.applyMutations(this.gamepad.right_stick_x);
     }
 
     public int getCarouselDirection() {
@@ -67,34 +73,50 @@ public class ControlMapping {
         return command;
     }
 
-    private boolean prevDpadUp = false;  // track previous Cross press
-    private boolean yeeterState = false; // current toggle state
+    public YeeterMode getYeeterMode() {
+        YeeterMode mode = YeeterMode.UNKNOWN;
 
-    /** Call each loop; returns true if Yeeter should be active */
-    public boolean getYeeterToggleState() {
-        // Detect new press
-        if (this.gamepad.dpad_up && !this.prevDpadUp) {
-            this.yeeterState = !this.yeeterState; // flip toggle
+        if (this.gamepad.dpad_left) {
+            mode = YeeterMode.STOP;
+        }
+        else if (this.gamepad.dpad_up) {
+            mode = YeeterMode.FULL;
+        }
+        else if (this.gamepad.dpad_right) {
+            mode = YeeterMode.LESS;
         }
 
-        // Update previous state
-        this.prevDpadUp = this.gamepad.dpad_up;
-
-        // Return current toggle state
-        return this.yeeterState;
+        return mode;
     }
 
-    private boolean prevDpadLeft = false;  // track previous Cross pres
-    public boolean getYeeterToggleStateLess() {
-        // Detect new press
-        if (this.gamepad.dpad_left && !this.prevDpadLeft) {
-            this.yeeterState = !this.yeeterState; // flip toggle
-        }
-
-        // Update previous state
-        this.prevDpadLeft = this.gamepad.dpad_left;
-
-        // Return current toggle state
-        return this.yeeterState;
-    }
+//    private boolean prevDpadUp = false;  // track previous Cross press
+//    private boolean yeeterState = false; // current toggle state
+//
+//    /** Call each loop; returns true if Yeeter should be active */
+//    public boolean getYeeterToggleState() {
+//        // Detect new press
+//        if (this.gamepad.dpad_up && !this.prevDpadUp) {
+//            this.yeeterState = !this.yeeterState; // flip toggle
+//        }
+//
+//        // Update previous state
+//        this.prevDpadUp = this.gamepad.dpad_up;
+//
+//        // Return current toggle state
+//        return this.yeeterState;
+//    }
+//
+//    private boolean prevDpadLeft = false;  // track previous Cross pres
+//    public boolean getYeeterToggleStateLess() {
+//        // Detect new press
+//        if (this.gamepad.dpad_left && !this.prevDpadLeft) {
+//            this.yeeterState = !this.yeeterState; // flip toggle
+//        }
+//
+//        // Update previous state
+//        this.prevDpadLeft = this.gamepad.dpad_left;
+//
+//        // Return current toggle state
+//        return this.yeeterState;
+//    }
 }

@@ -6,14 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
+import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
 @TeleOp(name = "teleop")
 public class teleop extends LinearOpMode {
 
     private Bot bot;
-    private final float deadzone = 0.15f;
-    private final float controlCurveExponent = 2.0f;
-    private boolean yeeterActive = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,7 +19,7 @@ public class teleop extends LinearOpMode {
         bot.initSubSystems();
         bot.setDebug();
 
-        ControlMapping controls = new ControlMapping(gamepad1, deadzone, controlCurveExponent);
+        ControlMapping controls = new ControlMapping(gamepad1);
 
         this.waitForStart();
 
@@ -48,6 +46,9 @@ public class teleop extends LinearOpMode {
             bot.setScooperState(scooperState);
 
             // YEETER CONTROL
+            YeeterMode yeeterMode = controls.getYeeterMode();
+            bot.setYeeterMode(yeeterMode);
+
 //            if (controls.getYeeterToggleState()) {
 //                bot.getYeeter().activate();   // motors on
 //            } else {

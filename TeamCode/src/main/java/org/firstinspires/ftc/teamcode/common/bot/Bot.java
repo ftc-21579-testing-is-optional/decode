@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.bot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
@@ -39,10 +40,10 @@ public class Bot {
         this.drive = new Drive(this);
         this.vision = new Vision(this);
         this.colorSensor = new ColorSensor(this);
-        this.carousel = new Carousel(this, 1.00);
-        this.intake = new Intake(this, 1.00);
+        this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER);
+        this.intake = new Intake(this, Config.INTAKE_ROTATION_POWER);
         this.scooper = new Scooper(this);
-        this.yeeter = new Yeeter(this, 1.0, 0.75);
+        this.yeeter = new Yeeter(this, Config.YEETER_ROTATION_POWER_FULL, Config.YEETER_ROTATION_POWER_LESS);
 
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;

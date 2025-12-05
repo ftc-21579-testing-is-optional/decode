@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
+import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
 public class AutoBase extends LinearOpMode {
     private Bot bot;
@@ -19,7 +20,7 @@ public class AutoBase extends LinearOpMode {
 
         this.time = new ElapsedTime();
 
-        bot.activateYeeter();
+        bot.setYeeterMode(YeeterMode.FULL);
         bot.setIntakeDirection(1);
 
         while (this.opModeIsActive()) {
@@ -31,7 +32,7 @@ public class AutoBase extends LinearOpMode {
 
             // START 1 shoot cycle
             if (time.seconds() > 2 && time.seconds() < 4) {
-                bot.getScooper().setPos(0.25);
+                bot.setScooperState(ScooperState.CATCH);
             }
 
             if (time.seconds() > 4 && time.seconds() < 5) {
@@ -43,13 +44,13 @@ public class AutoBase extends LinearOpMode {
             }
 
             if (time.seconds() > 8 && time.seconds() < 10) {
-                bot.getScooper().setPos(1.0);
+                bot.setScooperState(ScooperState.YEET);
             }
             // END 1 shoot cycle
 
             // START 1 shoot cycle
             if (time.seconds() > 10 && time.seconds() < 12) {
-                bot.getScooper().setPos(0.25);
+                bot.setScooperState(ScooperState.CATCH);
             }
 
             if (time.seconds() > 12 && time.seconds() < 13) {
@@ -61,13 +62,13 @@ public class AutoBase extends LinearOpMode {
             }
 
             if (time.seconds() > 16 && time.seconds() < 18) {
-                bot.getScooper().setPos(1.0);
+                bot.setScooperState(ScooperState.YEET);
             }
             // END 1 shoot cycle
 
             // START 1 shoot cycle
             if (time.seconds() > 20 && time.seconds() < 22) {
-                bot.getScooper().setPos(0.25);
+                bot.setScooperState(ScooperState.CATCH);
             }
 
             if (time.seconds() > 22 && time.seconds() < 23) {
@@ -79,7 +80,7 @@ public class AutoBase extends LinearOpMode {
             }
 
             if (time.seconds() > 26 && time.seconds() < 28) {
-                bot.getScooper().setPos(1.0);
+                bot.setScooperState(ScooperState.YEET);
             }
             // END 1 shoot cycle
 
