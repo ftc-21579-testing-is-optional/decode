@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 public class Carousel {
     private final Bot bot;
 
-    private double rotationPower;
+    private final double rotationPower;
     private DcMotor carouselMotor;
 
     public Carousel(Bot bot, double rotationPower) {

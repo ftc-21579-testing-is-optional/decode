@@ -1,23 +1,38 @@
-package org.firstinspires.ftc.teamcode.opmode.teleop;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
-@TeleOp(name = "teleop")
-public class teleop extends LinearOpMode {
+@TeleOp(name = "YeetTest")
+public class YeetTest extends LinearOpMode {
 
     private Bot bot;
+    private DcMotor leftMotor;
+    private DcMotor rightMotor;
+
+    double power = 1;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         bot = new Bot(this.hardwareMap, this.telemetry);
         bot.initSubSystems();
         bot.setDebug();
+
+
+        this.leftMotor = this.bot.hardwareMap.get(DcMotor.class, "motor5");
+        this.rightMotor = this.bot.hardwareMap.get(DcMotor.class, "motor6");
+
+        if (this.bot.isDebugMode()) {
+            this.bot.telemetry.addData("Yeeter", "Initialized");
+        }
+
 
         ControlMapping controls = new ControlMapping(gamepad1);
 
@@ -45,25 +60,43 @@ public class teleop extends LinearOpMode {
             ScooperState scooperState = controls.getScooperState();
             bot.setScooperState(scooperState);
 
-            // YEETER CONTROL
-            YeeterMode yeeterMode = controls.getYeeterMode();
-            bot.setYeeterMode(yeeterMode);
+            boolean PREVLEFT = false;
+            boolean PREVRIGHT = false;
 
-//            if (controls.getYeeterToggleState()) {
-//                bot.getYeeter().activate();   // motors on
-//            } else {
-//                bot.getYeeter().deactivate(); // motors off
-//            }
-//
-//            if (controls.getYeeterToggleStateLess()) {
-//                bot.getYeeter().activateLess();   // motors on
-//            } else {
-//                bot.getYeeter().deactivate(); // motors off
-//            }
+
+
+            if (gamepad1.dpad_right && !PREVRIGHT){
+                power = power + 0.1;
+                leftMotor.setPower(power);
+                rightMotor.setPower(-power);
+                PREVRIGHT = true;
+
+            }else{
+                PREVRIGHT = false;
+            }
+
+            if (gamepad1.dpad_left && !PREVLEFT){
+                power = power - 0.1;
+                leftMotor.setPower(power);
+                rightMotor.setPower(-power);
+            } else {
+                PREVLEFT = false;
+            }
+            if (gamepad1.dpad_up){
+                leftMotor.setPower(0);
+                rightMotor.setPower(0);
+            }
+
+            if (power >= 1) {
+                power = 1;
+            }
+
+
+
 
             // Telemetry
             telemetry.update();
-            telemetry.addData("Power", "power");
+            telemetry.addData("Power", power);
 
             // Loop delay
             sleep(10);

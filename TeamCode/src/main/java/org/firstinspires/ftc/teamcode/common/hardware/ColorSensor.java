@@ -12,13 +12,13 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 
 public class ColorSensor {
-    private Bot bot;
+    private final Bot bot;
     private NormalizedColorSensor colorSensor;
 
-    private float gain = 7;
-    private int purpleColor = 300;
-    private int greenColor = 145;
-    private int maxError = 30;
+    private final float gain = 7;
+    private final int purpleColor = 300;
+    private final int greenColor = 145;
+    private final int maxError = 30;
 
     public ColorSensor(Bot bot) {
         this.bot = bot;

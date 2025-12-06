@@ -12,6 +12,7 @@ public class Yeeter {
     private DcMotor leftMotor;
     private DcMotor rightMotor;
 
+
     private YeeterMode lastMode = YeeterMode.UNKNOWN;
 
 //    private boolean active;
@@ -85,7 +86,7 @@ public class Yeeter {
         this.setPower(0.0);
     }
 
-    private void setPower(double power) {
+    public void setPower(double power) {
         this.leftMotor.setPower(power);
         this.rightMotor.setPower(-power);
     }
