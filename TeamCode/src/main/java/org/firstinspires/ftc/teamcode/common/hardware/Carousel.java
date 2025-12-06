@@ -23,7 +23,23 @@ public class Carousel {
         }
     }
 
-    public void setRotationDirection(int direction) {
+    private void setRotationDirection(int direction) {
         this.carouselMotor.setPower(direction * this.rotationPower);
+    }
+
+    public void setRotationDirection(CarouselDirection direction) {
+        switch (direction) {
+            case STOP:
+                this.setRotationDirection(0);
+                break;
+
+            case UP:
+                this.setRotationDirection(1);
+                break;
+
+            case DOWN:
+                this.setRotationDirection(-1);
+                break;
+        }
     }
 }

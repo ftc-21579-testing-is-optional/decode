@@ -9,7 +9,10 @@ public class Config {
             YEETER_ROTATION_POWER_FULL = 1.00;
     public static final double
             YEETER_ROTATION_POWER_LESS = 0.75;
-    public static final double DEADZONE = 0.15;
-    public static boolean USE_CONTROL_CURVE = true;
-    public static final double CONTROL_CURVE_EXP = 2.0;
+    public static final double
+            DEADZONE = 0.15;
+    public static boolean
+            USE_CONTROL_CURVE = true;
+    public static final double
+            CONTROL_CURVE_EXP = 2.0;
 }

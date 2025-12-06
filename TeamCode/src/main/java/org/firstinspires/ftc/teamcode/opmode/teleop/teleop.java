@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
+import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
@@ -33,12 +34,12 @@ public class teleop extends LinearOpMode {
             bot.setDrivePower(axial, lateral, yaw);
 
             // Carousel and intake
-            bot.setCarouselDirection(controls.getCarouselDirection());
+//            bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
-                bot.setIntakeDirection(1); // turn intake on
+                bot.setIntakeDirection(IntakeDirection.IN); // turn intake on
             } else {
-                bot.setIntakeDirection(0); // turn intake off
+                bot.setIntakeDirection(IntakeDirection.STOP); // turn intake off
             }
 
             // SCOOPER CONTROL

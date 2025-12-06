@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.andymark.AndyMarkColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -12,20 +13,22 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 
 public class ColorSensor {
-    private final Bot bot;
-    private NormalizedColorSensor colorSensor;
+    private Bot bot;
+    private AndyMarkColorSensor colorSensor;
 
-    private final float gain = 7;
-    private final int purpleColor = 300;
-    private final int greenColor = 145;
-    private final int maxError = 30;
+    private float gain = 10;
+    private int purpleColor = 300;
+    private int greenColor = 130;
+    private int maxError = 90;
 
     public ColorSensor(Bot bot) {
         this.bot = bot;
     }
 
     public void init() {
-        this.colorSensor = this.bot.hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
+        this.colorSensor = this.bot.hardwareMap.get(AndyMarkColorSensor.class, "sensor_color");
+        this.colorSensor.initialize();
+        this.colorSensor.enableLed(true);
         this.colorSensor.setGain(this.gain);
     }
 
@@ -37,6 +40,10 @@ public class ColorSensor {
         Color.colorToHSV(colors.toColor(), hsvValues);
 
         if (this.bot.isDebugMode()) {
+            this.bot.telemetry.addLine()
+                    .addData("R", "%.3f", colors.red)
+                    .addData("G", "%.3f", colors.green)
+                    .addData("B", "%.3f", colors.blue);
             this.bot.telemetry.addLine()
                     .addData("Hue", "%.3f", hsvValues[0])
                     .addData("Saturation", "%.3f", hsvValues[1])
@@ -67,6 +74,16 @@ public class ColorSensor {
         else if (greenError < maxError) {
             classification = ArtifactColor.GREEN;
         }
+
+//        if (hsvValues[0] < maxError) {
+//            classification = ArtifactColor.UNKNOWN;
+//        }
+//        else if (purpleError < greenError) {
+//            classification = ArtifactColor.PURPLE;
+//        }
+//        else if (greenError < purpleError) {
+//            classification = ArtifactColor.GREEN;
+//        }
 
         if (this.bot.isDebugMode()) {
             this.bot.telemetry.addData("Classification", classification);
