@@ -1,99 +1,54 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
-import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
-import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
+import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
+import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
+import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
+import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 
+@Autonomous(name = "100% working auto")
 public class AutoBase extends LinearOpMode {
     private Bot bot;
-    ElapsedTime time;
 
     @Override
     public void runOpMode() throws InterruptedException {
         this.bot = new Bot(this.hardwareMap, this.telemetry);
+        this.bot.setDebug();
         this.bot.initSubSystems();
+
+        ControlMapping controls = new ControlMapping(gamepad1);
 
         this.waitForStart();
 
-        this.time = new ElapsedTime();
-
-        bot.setYeeterMode(YeeterMode.FULL);
-        bot.setIntakeDirection(1);
+//        this.bot.setIntakeDirection(IntakeDirection.IN);
 
         while (this.opModeIsActive()) {
-            if (time.seconds() < 0.5) {
-                bot.setDrivePower(0.5, 0, 0);
-            } else {
-                bot.setDrivePower(0, 0, 0);
-            }
+            // rotate carousel until there is a purple ball
+//            this.bot.setCarouselDirection(CarouselDirection.UP);
 
-            // START 1 shoot cycle
-            if (time.seconds() > 2 && time.seconds() < 4) {
-                bot.setScooperState(ScooperState.CATCH);
-            }
+            this.waitForColor(ArtifactColor.PURPLE);
 
-            if (time.seconds() > 4 && time.seconds() < 5) {
-                bot.setCarouselDirection(-1);
-            }
+//            this.bot.setCarouselDirection(CarouselDirection.STOP);
 
-            if (time.seconds() > 5 && time.seconds() < 8) {
-                bot.setCarouselDirection(0);
-            }
+            this.sleep(1000);
+            this.idle();
+        }
+    }
 
-            if (time.seconds() > 8 && time.seconds() < 10) {
-                bot.setScooperState(ScooperState.YEET);
-            }
-            // END 1 shoot cycle
+    public void waitForColor(ArtifactColor color) {
+        ArtifactColor classification;
 
-            // START 1 shoot cycle
-            if (time.seconds() > 10 && time.seconds() < 12) {
-                bot.setScooperState(ScooperState.CATCH);
-            }
+        do {
+            classification = this.bot.classifyArtifact();
 
-            if (time.seconds() > 12 && time.seconds() < 13) {
-                bot.setCarouselDirection(-1);
-            }
-
-            if (time.seconds() > 13 && time.seconds() < 16) {
-                bot.setCarouselDirection(0);
-            }
-
-            if (time.seconds() > 16 && time.seconds() < 18) {
-                bot.setScooperState(ScooperState.YEET);
-            }
-            // END 1 shoot cycle
-
-            // START 1 shoot cycle
-            if (time.seconds() > 20 && time.seconds() < 22) {
-                bot.setScooperState(ScooperState.CATCH);
-            }
-
-            if (time.seconds() > 22 && time.seconds() < 23) {
-                bot.setCarouselDirection(-1);
-            }
-
-            if (time.seconds() > 23 && time.seconds() < 26) {
-                bot.setCarouselDirection(0);
-            }
-
-            if (time.seconds() > 26 && time.seconds() < 28) {
-                bot.setScooperState(ScooperState.YEET);
-            }
-            // END 1 shoot cycle
-
-            if (time.seconds() > 28 && time.seconds() < 29) {
-                bot.setDrivePower(0.5, 0, 0);
-            } else {
-                bot.setDrivePower(0, 0, 0);
-            }
-
+            this.telemetry.addData("Classification", classification);
             this.telemetry.update();
 
-            sleep(10);
-            idle();
-        }
+            this.sleep(10);
+            this.idle();
+        } while (classification != color);
     }
 }

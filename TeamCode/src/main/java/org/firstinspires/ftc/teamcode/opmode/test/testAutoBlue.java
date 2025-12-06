@@ -23,8 +23,8 @@ public class testAutoBlue extends LinearOpMode {
 
         this.waitForStart();
 
-        bot.getYeeter().activate();
-        bot.getScooper().setState(0);
+//        bot.getYeeter().activate();
+//        bot.getScooper().setState(0);
 
         while (this.opModeIsActive()) {
             //List<AprilTagDetection> detections = this.bot.getAprilTagDetections();
@@ -36,13 +36,13 @@ public class testAutoBlue extends LinearOpMode {
             }
 
             if (time.seconds() >= 3) {
-                bot.getScooper().setState(1);
+//                bot.getScooper().setState(1);
 
-                bot.setCarouselDirection(1);
+//                bot.setCarouselDirection(1);
 
-                bot.setCarouselDirection(0);
+//                bot.setCarouselDirection(0);
 
-                bot.getScooper().setState(2);
+//                bot.getScooper().setState(2);
             }
 
 

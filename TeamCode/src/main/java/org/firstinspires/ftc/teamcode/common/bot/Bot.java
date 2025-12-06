@@ -6,9 +6,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
+import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.common.hardware.Drive;
 import org.firstinspires.ftc.teamcode.common.hardware.Intake;
+import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.Scooper;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.Vision;
@@ -51,8 +53,8 @@ public class Bot {
 
     public void initSubSystems() {
         this.drive.init();
-//        this.vision.init();
-//        this.colorSensor.init();
+        this.vision.init();
+        this.colorSensor.init();
         this.carousel.init();
         this.intake.init();
         this.scooper.init();
@@ -91,11 +93,11 @@ public class Bot {
         this.drive.setPower(axial, lateral, yaw);
     }
 
-    public void setCarouselDirection(int direction) {
+    public void setCarouselDirection(CarouselDirection direction) {
         this.carousel.setRotationDirection(direction);
     }
 
-    public void setIntakeDirection(int direction) {
+    public void setIntakeDirection(IntakeDirection direction) {
         this.intake.setRotationDirection(direction);
     }
 
@@ -110,6 +112,11 @@ public class Bot {
     public List<AprilTagDetection> getAprilTagDetections() {
         return this.vision.getAprilTagDetections();
     }
+
+    public ArtifactColor classifyArtifact() {
+        return this.colorSensor.classify();
+    }
+
 
     public void visionTest() {
         this.vision.telemetryAprilTag();

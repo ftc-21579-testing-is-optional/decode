@@ -25,8 +25,24 @@ public class Intake {
         }
     }
 
-    public void setRotationDirection(int direction) {
+    private void setRotationDirection(int direction) {
         this.leftServo.setPower(direction * this.rotationPower);
         this.rightServo.setPower(-direction * this.rotationPower);
+    }
+
+    public void setRotationDirection(IntakeDirection direction) {
+        switch (direction) {
+            case STOP:
+                this.setRotationDirection(0);
+                break;
+
+            case IN:
+                this.setRotationDirection(1);
+                break;
+
+            case OUT:
+                this.setRotationDirection(-1);
+                break;
+        }
     }
 }
