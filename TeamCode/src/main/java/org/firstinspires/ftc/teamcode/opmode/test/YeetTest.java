@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
+import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
@@ -18,13 +19,11 @@ public class YeetTest extends LinearOpMode {
 
     double power = 1;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         bot = new Bot(this.hardwareMap, this.telemetry);
         bot.initSubSystems();
         bot.setDebug();
-
 
         this.leftMotor = this.bot.hardwareMap.get(DcMotor.class, "motor5");
         this.rightMotor = this.bot.hardwareMap.get(DcMotor.class, "motor6");
@@ -33,12 +32,14 @@ public class YeetTest extends LinearOpMode {
             this.bot.telemetry.addData("Yeeter", "Initialized");
         }
 
-
         ControlMapping controls = new ControlMapping(gamepad1);
 
         this.waitForStart();
 
         double scooperPos = 0.0;
+
+        boolean prevLeft = false;
+        boolean prevRight = false;
 
         while (opModeIsActive()) {
             // Drive control
@@ -51,36 +52,24 @@ public class YeetTest extends LinearOpMode {
             bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
-                bot.setIntakeDirection(1); // turn intake on
+                bot.setIntakeDirection(IntakeDirection.IN); // turn intake on
             } else {
-                bot.setIntakeDirection(0); // turn intake off
+                bot.setIntakeDirection(IntakeDirection.STOP); // turn intake off
             }
 
             // SCOOPER CONTROL
             ScooperState scooperState = controls.getScooperState();
             bot.setScooperState(scooperState);
 
-            boolean PREVLEFT = false;
-            boolean PREVRIGHT = false;
-
-
-
-            if (gamepad1.dpad_right && !PREVRIGHT){
-                power = power + 0.1;
+            if (gamepad1.dpad_right && !prevRight) {
+                power += 0.025;
                 leftMotor.setPower(power);
                 rightMotor.setPower(-power);
-                PREVRIGHT = true;
-
-            }else{
-                PREVRIGHT = false;
             }
-
-            if (gamepad1.dpad_left && !PREVLEFT){
-                power = power - 0.1;
+            if (gamepad1.dpad_left && !prevLeft) {
+                power -= 0.025;
                 leftMotor.setPower(power);
                 rightMotor.setPower(-power);
-            } else {
-                PREVLEFT = false;
             }
             if (gamepad1.dpad_up){
                 leftMotor.setPower(0);
@@ -91,8 +80,8 @@ public class YeetTest extends LinearOpMode {
                 power = 1;
             }
 
-
-
+            prevRight = gamepad1.dpad_right;
+            prevLeft = gamepad1.dpad_left;
 
             // Telemetry
             telemetry.update();

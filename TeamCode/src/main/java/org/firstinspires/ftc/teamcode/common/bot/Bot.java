@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.common.bot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
+import org.firstinspires.ftc.teamcode.common.game.Motif;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
@@ -34,6 +36,8 @@ public class Bot {
 
     private BotState state;
     private BotMode mode;
+    private Motif lastMotif;
+
 
     public Bot(HardwareMap hMap, Telemetry telemetry) {
         this.hardwareMap = hMap;
@@ -117,6 +121,29 @@ public class Bot {
         return this.colorSensor.classify();
     }
 
+    public void readAprilTags() {
+        List<AprilTagDetection> tags = this.vision.getAprilTagDetections();
+
+        for (AprilTagDetection tag : tags) {
+            this.telemetry.addData("name", tag.metadata.name);
+            this.telemetry.addData("id", tag.metadata.id);
+            this.telemetry.addData("yaw", tag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
+
+            switch (tag.metadata.name) {
+                case "PPG":
+                    this.lastMotif = Motif.PPG;
+                    break;
+
+                case "PGP":
+                    this.lastMotif = Motif.PGP;
+                    break;
+
+                case "GPP":
+                    this.lastMotif = Motif.GPP;
+                    break;
+            }
+        }
+    }
 
     public void visionTest() {
         this.vision.telemetryAprilTag();
@@ -127,16 +154,4 @@ public class Bot {
         ArtifactColor color = this.colorSensor.classify();
         this.telemetry.addData("Classification (Bot)", color);
     }
-
-//    public Scooper getScooper() {
-//        return this.scooper;
-//    }
-//    public Yeeter getYeeter() {
-//        return this.yeeter;
-//    }
-//
-//    public void activateYeeter() {
-//        this.yeeter.activate();
-//    }
-
 }

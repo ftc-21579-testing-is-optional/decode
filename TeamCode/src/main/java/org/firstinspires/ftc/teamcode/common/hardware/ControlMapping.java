@@ -39,8 +39,18 @@ public class ControlMapping {
         return this.applyMutations(this.gamepad.right_stick_x);
     }
 
-    public int getCarouselDirection() {
-        return (this.gamepad.left_bumper ? -1 : 0) + (this.gamepad.right_bumper ? 1 : 0);
+    public CarouselDirection getCarouselDirection() {
+//        return (this.gamepad.left_bumper ? -1 : 0) + (this.gamepad.right_bumper ? 1 : 0);
+
+        if (this.gamepad.left_bumper) {
+            return CarouselDirection.DOWN;
+        }
+        else if (this.gamepad.right_bumper) {
+            return CarouselDirection.UP;
+        }
+        else {
+            return CarouselDirection.STOP;
+        }
     }
 
     private boolean prevDpadDown = false;  // track previous press
