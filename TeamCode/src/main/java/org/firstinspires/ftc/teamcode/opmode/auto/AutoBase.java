@@ -8,8 +8,11 @@ import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
 import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Autonomous(name = "100% working auto")
+import java.util.List;
+
+@Autonomous(name = "100% (not) working auto")
 public class AutoBase extends LinearOpMode {
     private Bot bot;
 
@@ -29,12 +32,27 @@ public class AutoBase extends LinearOpMode {
             // rotate carousel until there is a purple ball
 //            this.bot.setCarouselDirection(CarouselDirection.UP);
 
-            this.waitForColor(ArtifactColor.PURPLE);
+//            this.waitForColor(ArtifactColor.PURPLE);
 
 //            this.bot.setCarouselDirection(CarouselDirection.STOP);
 
-            this.sleep(1000);
+            bot.visionTest();
+
+            // ~ -27, 18 in
+
+//             List<AprilTagDetection> tags = bot.getAprilTagDetections();
+//
+//            for (AprilTagDetection tag : tags) {
+//                if (tag.metadata.id == 24) {
+//
+//                }
+//            }
+
+            this.sleep(10
+            );
             this.idle();
+
+            telemetry.update();
         }
     }
 

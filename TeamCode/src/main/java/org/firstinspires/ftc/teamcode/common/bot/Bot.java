@@ -147,7 +147,7 @@ public class Bot {
 
     public void visionTest() {
         this.vision.telemetryAprilTag();
-        this.vision.telemetryBallDetector();
+//        this.vision.telemetryBallDetector();
     }
 
     public void colorSensorTest() {
