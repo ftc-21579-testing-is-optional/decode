@@ -36,7 +36,6 @@ public class Bot {
 
     private BotState state;
     private BotMode mode;
-    private Motif lastMotif;
 
 
     public Bot(HardwareMap hMap, Telemetry telemetry) {
@@ -119,30 +118,6 @@ public class Bot {
 
     public ArtifactColor classifyArtifact() {
         return this.colorSensor.classify();
-    }
-
-    public void readAprilTags() {
-        List<AprilTagDetection> tags = this.vision.getAprilTagDetections();
-
-        for (AprilTagDetection tag : tags) {
-            this.telemetry.addData("name", tag.metadata.name);
-            this.telemetry.addData("id", tag.metadata.id);
-            this.telemetry.addData("yaw", tag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
-
-            switch (tag.metadata.name) {
-                case "PPG":
-                    this.lastMotif = Motif.PPG;
-                    break;
-
-                case "PGP":
-                    this.lastMotif = Motif.PGP;
-                    break;
-
-                case "GPP":
-                    this.lastMotif = Motif.GPP;
-                    break;
-            }
-        }
     }
 
     public void visionTest() {

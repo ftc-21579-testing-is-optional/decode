@@ -16,7 +16,11 @@ public class ControlMapping {
     }
 
     private double applyControlCurve(double value) {
-        return Math.signum(value) * Math.abs(Math.pow(value, this.controlCurvePower));
+        if (Config.USE_CONTROL_CURVE) {
+            return Math.signum(value) * Math.abs(Math.pow(value, this.controlCurvePower));
+        }
+
+        return value;
     }
 
     private double applyDeadzone(double value) {

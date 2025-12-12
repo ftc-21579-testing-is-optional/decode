@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
+import org.firstinspires.ftc.teamcode.common.config.Config;
 
 public class Scooper {
 
@@ -29,15 +30,15 @@ public class Scooper {
 
         switch (state) {
             case RECYCLE:
-                this.servo.setPosition(0.0);
+                this.servo.setPosition(Config.SCOOPER_RECYCLE_POSITION);
                 break;
 
             case CATCH:
-                this.servo.setPosition(0.25);
+                this.servo.setPosition(Config.SCOOPER_CATCH_POSITION);
                 break;
 
             case YEET:
-                this.servo.setPosition(0.8);
+                this.servo.setPosition(Config.SCOOPER_YEET_POSITION);
                 break;
         }
 
