@@ -8,7 +8,9 @@ public class Config {
     public static final double
             YEETER_ROTATION_POWER_FULL = 1.00;
     public static final double
-            YEETER_ROTATION_POWER_LESS = 0.3;
+            YEETER_ROTATION_POWER_LESS = 0.325;
+    public static final double
+            YEETER_ROTATION_POWER_AUTO = 0.3;
     public static final double
             SCOOPER_RECYCLE_POSITION = 0.0;
     public static final double

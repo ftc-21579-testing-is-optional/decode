@@ -48,7 +48,7 @@ public class Bot {
         this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER);
         this.intake = new Intake(this, Config.INTAKE_ROTATION_POWER);
         this.scooper = new Scooper(this);
-        this.yeeter = new Yeeter(this, Config.YEETER_ROTATION_POWER_FULL, Config.YEETER_ROTATION_POWER_LESS);
+        this.yeeter = new Yeeter(this, Config.YEETER_ROTATION_POWER_FULL, Config.YEETER_ROTATION_POWER_LESS, Config.YEETER_ROTATION_POWER_AUTO);
 
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;
@@ -57,7 +57,7 @@ public class Bot {
     public void initSubSystems() {
         this.drive.init();
         this.vision.init();
-        this.colorSensor.init();
+//        this.colorSensor.init();
         this.carousel.init();
         this.intake.init();
         this.scooper.init();

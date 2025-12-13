@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
-import org.firstinspires.ftc.teamcode.common.config.Config;
-import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 import org.firstinspires.ftc.teamcode.common.game.Motif;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
@@ -16,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @Autonomous(name = "100% (not) working auto")
-public class AutoBase extends LinearOpMode {
+public class CloseAutoBase extends LinearOpMode {
     private Bot bot;
     private ElapsedTime time;
 
@@ -38,7 +36,7 @@ public class AutoBase extends LinearOpMode {
         this.time = new ElapsedTime();
 
         this.bot.setIntakeDirection(IntakeDirection.IN);
-        this.bot.setYeeterMode(YeeterMode.LESS);
+        this.bot.setYeeterMode(YeeterMode.AUTO);
         this.bot.setCarouselPower(0.5);
 
         boolean shouldShoot = false;
@@ -75,7 +73,7 @@ public class AutoBase extends LinearOpMode {
 
             this.telemetry.addData("distance", this.currentDistance);
 
-            if (this.currentDistance < 46) {
+            if (this.currentDistance < 28) {
                 this.bot.setDrivePower(-0.25, 0.0, 0.0); // TODO: probably increase speed, low speed just to start off with
 
                 shouldShoot = false;
@@ -87,7 +85,7 @@ public class AutoBase extends LinearOpMode {
 //                // wait for color based on currentMotif? -> later once color sensor is functional
 //            }
 
-            if (this.currentDistance >= 46) {
+            if (this.currentDistance >= 28) {
                 shouldShoot = true;
             }
 
@@ -148,7 +146,50 @@ public class AutoBase extends LinearOpMode {
                 }
                 // END 1 shoot cycle
 
-                // ADD MORE SHOOT CYCLES
+                // START 1 shoot cycle
+                if (time.seconds() > 18 && time.seconds() < 19) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 19 && time.seconds() < 19.5) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
+
+                if (time.seconds() > 19.5 && time.seconds() < 21) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 21 && time.seconds() < 22) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+                if (time.seconds() > 23 && time.seconds() < 24) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 24 && time.seconds() < 24.5) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
+
+                if (time.seconds() > 24.5 && time.seconds() < 26) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 26 && time.seconds() < 27) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // Move laterally at end
+//                if (time.seconds() > 27 && time.seconds() < 28) {
+//                    bot.setDrivePower(0.0, 0.75 * Math.signum(this.goalPosY), 0.0);
+//                }
+//
+//                if (time.seconds() > 28 && time.seconds() < 30) {
+//                    bot.setDrivePower(0.0, 0.0, 0.0);
+//                }
             }
 
             this.telemetry.addData("shouldShoot", shouldShoot);

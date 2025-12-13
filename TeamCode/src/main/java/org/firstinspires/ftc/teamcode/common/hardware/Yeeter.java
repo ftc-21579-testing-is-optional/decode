@@ -9,6 +9,7 @@ public class Yeeter {
 
     private double rotationPowerFull;
     private double rotationPowerLess;
+    private double rotationPowerAuto;
     private DcMotor leftMotor;
     private DcMotor rightMotor;
 
@@ -18,10 +19,11 @@ public class Yeeter {
 //    private boolean active;
 //    private boolean activeLess;
 
-    public Yeeter(Bot bot, double rotationPowerFull, double rotationPowerLess) {
+    public Yeeter(Bot bot, double rotationPowerFull, double rotationPowerLess, double rotationPowerAuto) {
         this.bot = bot;
         this.rotationPowerFull = rotationPowerFull;
         this.rotationPowerLess = rotationPowerLess;
+        this.rotationPowerAuto = rotationPowerAuto;
     }
 
     public void init() {
@@ -111,6 +113,10 @@ public class Yeeter {
 
             case FULL:
                 this.setPower(this.rotationPowerFull);
+                break;
+
+            case AUTO:
+                this.setPower(this.rotationPowerAuto);
                 break;
         }
 

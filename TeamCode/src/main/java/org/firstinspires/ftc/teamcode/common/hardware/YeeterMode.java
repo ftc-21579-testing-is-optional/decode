@@ -6,4 +6,5 @@ public enum YeeterMode {
     BRAKE,
     LESS,
     FULL,
+    AUTO,
 }
