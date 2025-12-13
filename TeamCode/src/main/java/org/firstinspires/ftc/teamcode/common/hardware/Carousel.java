@@ -7,8 +7,10 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 public class Carousel {
     private final Bot bot;
 
-    private final double rotationPower;
+    private double rotationPower;
     private DcMotor carouselMotor;
+
+    private CarouselDirection lastDirection;
 
     public Carousel(Bot bot, double rotationPower) {
         this.bot = bot;
@@ -23,11 +25,17 @@ public class Carousel {
         }
     }
 
-    private void setRotationDirection(int direction) {
+    public void setRotationDirection(int direction) {
         this.carouselMotor.setPower(direction * this.rotationPower);
     }
 
     public void setRotationDirection(CarouselDirection direction) {
+        bot.telemetry.addData("carouselDirection", direction.name());
+
+        if (this.lastDirection == direction) {
+            return;
+        }
+
         switch (direction) {
             case STOP:
                 this.setRotationDirection(0);
@@ -41,5 +49,11 @@ public class Carousel {
                 this.setRotationDirection(-1);
                 break;
         }
+
+        this.lastDirection = direction;
+    }
+
+    public void setRotationPower(double power) {
+        this.rotationPower = power;
     }
 }

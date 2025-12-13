@@ -34,7 +34,7 @@ public class teleop extends LinearOpMode {
             bot.setDrivePower(axial, lateral, yaw);
 
             // Carousel and intake
-//            bot.setCarouselDirection(controls.getCarouselDirection());
+            bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
                 bot.setIntakeDirection(IntakeDirection.IN); // turn intake on

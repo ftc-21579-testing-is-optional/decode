@@ -3,12 +3,8 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 import android.graphics.Color;
 
 import com.qualcomm.hardware.andymark.AndyMarkColorSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 
@@ -32,7 +28,26 @@ public class ColorSensor {
         this.colorSensor.setGain(this.gain);
     }
 
-    public float[] getColor() {
+    public float[] getColorRGB() {
+        NormalizedRGBA colors = colorSensor.getNormalizedColors();
+
+        float[] rgbValues = {colors.red, colors.green, colors.blue};
+
+        if (this.bot.isDebugMode()) {
+            this.bot.telemetry.addLine()
+                    .addData("R", "%.3f", colors.red)
+                    .addData("G", "%.3f", colors.green)
+                    .addData("B", "%.3f", colors.blue);
+            this.bot.telemetry.addLine()
+                    .addData("Hue", "%.3f", rgbValues[0])
+                    .addData("Saturation", "%.3f", rgbValues[1])
+                    .addData("Value", "%.3f", rgbValues[2]);
+        }
+
+        return rgbValues;
+    }
+
+    public float[] getColorHSV() {
         float[] hsvValues = new float[3];
 
         NormalizedRGBA colors = colorSensor.getNormalizedColors();
@@ -53,7 +68,7 @@ public class ColorSensor {
         return hsvValues;
     }
     public ArtifactColor classify() {
-        float[] hsvValues = this.getColor();
+        float[] hsvValues = this.getColorHSV();
 
         float purpleError = Math.abs(hsvValues[0] - purpleColor);
         float greenError = Math.abs(hsvValues[0] - greenColor);

@@ -9,7 +9,9 @@ import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
 import org.firstinspires.ftc.teamcode.common.game.Motif;
+import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
+import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -37,6 +39,9 @@ public class AutoBase extends LinearOpMode {
 
         this.bot.setIntakeDirection(IntakeDirection.IN);
         this.bot.setYeeterMode(YeeterMode.LESS);
+        this.bot.setCarouselPower(0.5);
+
+        boolean shouldShoot = false;
 
         while (this.opModeIsActive()) {
             for (AprilTagDetection tag : bot.getAprilTagDetections()) {
@@ -64,27 +69,91 @@ public class AutoBase extends LinearOpMode {
                 }
             }
 
-            if (this.goalTag != null) { // TODO: maybe try rolling average if there is significant jitter
+            if (this.goalTag != null) { // TODO: maybe try persistence counting
                 this.currentDistance = Math.sqrt(Math.pow(this.goalPosX - this.goalTag.robotPose.getPosition().x, 2) + Math.pow(this.goalPosY - this.goalTag.robotPose.getPosition().y, 2)) - 18; // 2D distance between bot and 18in from corner
             }
 
             this.telemetry.addData("distance", this.currentDistance);
 
-            if (this.currentDistance < 48) {
+            if (this.currentDistance < 46) {
                 this.bot.setDrivePower(-0.25, 0.0, 0.0); // TODO: probably increase speed, low speed just to start off with
+
+                shouldShoot = false;
             }
-            else if (this.currentDistance > Config.MIN_SHOOTING_DISTANCE && this.currentDistance < Config.MAX_SHOOTING_DISTANCE) { // TODO: maybe remove upper limit and just go for shot no matter what?
+//            else if (this.currentDistance > Config.MIN_SHOOTING_DISTANCE && this.currentDistance < Config.MAX_SHOOTING_DISTANCE) { // TODO: maybe remove upper limit and just go for shot no matter what?
+//                this.bot.setDrivePower(0.0, 0.0, 0.0);
+//
+//                // Do shooting routine
+//                // wait for color based on currentMotif? -> later once color sensor is functional
+//            }
+
+            if (this.currentDistance >= 46) {
+                shouldShoot = true;
+            }
+
+            if (shouldShoot) {
                 this.bot.setDrivePower(0.0, 0.0, 0.0);
 
-                // Do shooting routine
-                // wait for color based on currentMotif? -> later once color sensor is functional
+                // START 1 shoot cycle
+                if (time.seconds() > 3 && time.seconds() < 4) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
 
+                if (time.seconds() > 4 && time.seconds() < 4.5) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
 
+                if (time.seconds() > 4.5 && time.seconds() < 6) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 6 && time.seconds() < 7) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+                if (time.seconds() > 8 && time.seconds() < 9) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 9 && time.seconds() < 9.5) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
+
+                if (time.seconds() > 9.5 && time.seconds() < 11) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 11 && time.seconds() < 12) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+                if (time.seconds() > 13 && time.seconds() < 14) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 14 && time.seconds() < 14.5) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
+
+                if (time.seconds() > 14.5 && time.seconds() < 16) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 16 && time.seconds() < 17) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // ADD MORE SHOOT CYCLES
             }
-            else {
-                this.bot.setDrivePower(0.0, 0.0, 0.0);
-            }
 
+            this.telemetry.addData("shouldShoot", shouldShoot);
+
+            this.telemetry.addData("currentMotif", this.currentMotif.name());
 
             this.telemetry.update();
 
@@ -93,17 +162,17 @@ public class AutoBase extends LinearOpMode {
         }
     }
 
-    public void waitForColor(ArtifactColor color) {
-        ArtifactColor classification;
+    public void waitForBall() {
+        boolean detection;
 
         do {
-            classification = this.bot.classifyArtifact();
+            detection = this.bot.isThereABall();
 
-            this.telemetry.addData("Classification", classification);
+            this.telemetry.addData("Detection", detection);
             this.telemetry.update();
 
             this.sleep(10);
             this.idle();
-        } while (classification != color);
+        } while (!detection);
     }
 }

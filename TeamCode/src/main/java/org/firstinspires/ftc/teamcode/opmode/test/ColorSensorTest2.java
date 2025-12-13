@@ -18,6 +18,8 @@ public class ColorSensorTest2 extends LinearOpMode {
         while (this.opModeIsActive()) {
             bot.colorSensorTest();
 
+            telemetry.addData("isThereABall", bot.isThereABall());
+
             telemetry.update();
 
             sleep(10);

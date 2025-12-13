@@ -100,6 +100,10 @@ public class Bot {
         this.carousel.setRotationDirection(direction);
     }
 
+    public void setCarouselDirection(int direction) {
+        this.carousel.setRotationDirection(direction);
+    }
+
     public void setIntakeDirection(IntakeDirection direction) {
         this.intake.setRotationDirection(direction);
     }
@@ -128,5 +132,24 @@ public class Bot {
     public void colorSensorTest() {
         ArtifactColor color = this.colorSensor.classify();
         this.telemetry.addData("Classification (Bot)", color);
+    }
+
+    public boolean isThereABall() {
+        float[] colors = this.colorSensor.getColorRGB();
+
+        float totalColor = 0;
+
+        // 0.00x
+        for (float color : colors) {
+            totalColor += color;
+        }
+
+        telemetry.addData("totalColor", totalColor);
+
+        return totalColor > 0.003;
+    }
+
+    public void setCarouselPower(double power) {
+        this.carousel.setRotationPower(power);
     }
 }
