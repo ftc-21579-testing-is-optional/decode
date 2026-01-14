@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode.common.bot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
-import org.firstinspires.ftc.teamcode.common.game.Motif;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.common.hardware.Drive;
-import org.firstinspires.ftc.teamcode.common.hardware.Intake;
+import org.firstinspires.ftc.teamcode.common.hardware.CarWashIntake;
+import org.firstinspires.ftc.teamcode.common.hardware.DrumIntake;
 import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.Scooper;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
@@ -30,7 +30,8 @@ public class Bot {
     private final Vision vision;
     private final ColorSensor colorSensor;
     private final Carousel carousel;
-    private final Intake intake;
+    private final CarWashIntake carWashIntake;
+    private final DrumIntake drumIntake;
     private final Scooper scooper;
     private final Yeeter yeeter;
 
@@ -46,7 +47,8 @@ public class Bot {
         this.vision = new Vision(this);
         this.colorSensor = new ColorSensor(this);
         this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER);
-        this.intake = new Intake(this, Config.INTAKE_ROTATION_POWER);
+        this.carWashIntake = new CarWashIntake(this, Config.INTAKE_ROTATION_POWER);
+        this.drumIntake = new DrumIntake(this, Config.INTAKE_ROTATION_POWER);
         this.scooper = new Scooper(this);
         this.yeeter = new Yeeter(this, Config.YEETER_ROTATION_POWER_FULL, Config.YEETER_ROTATION_POWER_LESS, Config.YEETER_ROTATION_POWER_AUTO);
 
@@ -59,7 +61,8 @@ public class Bot {
         this.vision.init();
 //        this.colorSensor.init();
         this.carousel.init();
-        this.intake.init();
+//        this.carWashIntake.init();
+        this.drumIntake.init();
         this.scooper.init();
         this.yeeter.init();
     }
@@ -70,6 +73,14 @@ public class Bot {
 
     public void initColorSensorDebug() {
         this.colorSensor.init();
+    }
+
+    public void initMotionSystemsDebug() {
+        this.drive.init();
+        this.carousel.init();
+        this.drumIntake.init();
+        this.scooper.init();
+        this.yeeter.init();
     }
 
     public void setDebug() {
@@ -96,6 +107,16 @@ public class Bot {
         this.drive.setPower(axial, lateral, yaw);
     }
 
+    public void setDrivePowerField(double x, double y, double robotYaw, double turnYaw) {
+        double cos = Math.cos(Math.toRadians(robotYaw));
+        double sin = Math.sin(Math.toRadians(robotYaw));
+
+        double axial = y * cos - x * sin;
+        double lateral = y * sin + x * cos;
+
+        this.drive.setPower(axial, lateral * 1.5, turnYaw - (lateral * 0.1));
+    }
+
     public void setCarouselDirection(CarouselDirection direction) {
         this.carousel.setRotationDirection(direction);
     }
@@ -104,8 +125,12 @@ public class Bot {
         this.carousel.setRotationDirection(direction);
     }
 
-    public void setIntakeDirection(IntakeDirection direction) {
-        this.intake.setRotationDirection(direction);
+    public void setCarWashIntakeDirection(IntakeDirection direction) {
+        this.carWashIntake.setRotationDirection(direction);
+    }
+
+    public void setDrumIntakeDirection(IntakeDirection direction) {
+        this.drumIntake.setRotationDirection(direction);
     }
 
     public void setScooperState(ScooperState state) {
@@ -120,11 +145,16 @@ public class Bot {
         return this.vision.getAprilTagDetections();
     }
 
+    public Pose3D getRobotPose() {
+        return this.vision.getRobotPose();
+    }
+
     public ArtifactColor classifyArtifact() {
         return this.colorSensor.classify();
     }
 
     public void visionTest() {
+        this.vision.telemetryRobotPose();
         this.vision.telemetryAprilTag();
 //        this.vision.telemetryBallDetector();
     }

@@ -6,6 +6,7 @@ import android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
@@ -44,9 +45,11 @@ public class Vision {
     public void initVisionPortal() {
         this.visionPortal = new VisionPortal.Builder()
                 .addProcessor(this.aprilTag)
-                .addProcessor(this.colorBlobLocator)
-                .setCameraResolution(new Size(640, 480))
+//                .addProcessor(this.colorBlobLocator)
+//                .setCameraResolution(new Size(640, 480))
+                .setCameraResolution(new Size(1280, 720))
                 .setCamera(this.bot.hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .build();
     }
 
@@ -58,6 +61,69 @@ public class Vision {
 
     public List<AprilTagDetection> getAprilTagDetections() {
         return this.aprilTag.getDetections();
+    }
+
+    public int detectedPosesSize = 5;
+    public List<Pose3D> detectedPoses = new ArrayList<>();
+
+    public Pose3D getRobotPose() {
+        for (AprilTagDetection detection : this.getAprilTagDetections()) {
+            if (detection.metadata == null || detection.metadata.name == null)
+                continue;
+
+            if (!detection.metadata.name.contains("Obelisk")) {
+                this.detectedPoses.add(0, detection.robotPose);
+
+                if (this.detectedPoses.size() > this.detectedPosesSize) {
+                    this.detectedPoses.remove(this.detectedPosesSize);
+                }
+            }
+        }
+
+        double x = 0, y = 0, z = 0, pitch = 0, roll = 0, yaw = 0;
+
+        for (Pose3D pose : this.detectedPoses) {
+            x += pose.getPosition().x;
+            y += pose.getPosition().y;
+            z += pose.getPosition().z;
+
+            yaw += pose.getOrientation().getYaw(AngleUnit.DEGREES);
+            pitch += pose.getOrientation().getPitch(AngleUnit.DEGREES);
+            roll += pose.getOrientation().getRoll(AngleUnit.DEGREES);
+        }
+
+        double size = this.detectedPoses.size();
+        size = (size == 0) ? 1 : size;
+
+        return new Pose3D(
+                new Position(
+                        DistanceUnit.INCH,
+                        x / size,
+                        y / size,
+                        z / size,
+                        0
+                ),
+                new YawPitchRollAngles(
+                        AngleUnit.DEGREES,
+                        yaw / size,
+                        pitch / size,
+                        roll / size,
+                        0
+                )
+        );
+    }
+
+    public void telemetryRobotPose() {
+        Pose3D robotPose = this.getRobotPose();
+
+        this.bot.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                robotPose.getPosition().x,
+                robotPose.getPosition().y,
+                robotPose.getPosition().z));
+        this.bot.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+                robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+                robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
     }
 
     public void telemetryAprilTag() {

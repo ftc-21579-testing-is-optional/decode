@@ -52,9 +52,9 @@ public class YeetTest extends LinearOpMode {
             bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
-                bot.setIntakeDirection(IntakeDirection.IN); // turn intake on
+                bot.setCarWashIntakeDirection(IntakeDirection.IN); // turn intake on
             } else {
-                bot.setIntakeDirection(IntakeDirection.STOP); // turn intake off
+                bot.setCarWashIntakeDirection(IntakeDirection.STOP); // turn intake off
             }
 
             // SCOOPER CONTROL

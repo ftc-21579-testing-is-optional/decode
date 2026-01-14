@@ -23,7 +23,7 @@ public class AutoBaseOld extends LinearOpMode {
         this.time = new ElapsedTime();
 
         bot.setYeeterMode(YeeterMode.FULL);
-        bot.setIntakeDirection(IntakeDirection.IN);
+        bot.setCarWashIntakeDirection(IntakeDirection.IN);
 
         while (this.opModeIsActive()) {
             if (time.seconds() < 0.5) {

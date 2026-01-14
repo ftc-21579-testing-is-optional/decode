@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
-public class Intake {
+public class CarWashIntake {
     private final Bot bot;
 
     private double rotationPower;
     private CRServo leftServo;
     private CRServo rightServo;
 
-    public Intake(Bot bot, double rotationPower) {
+    public CarWashIntake(Bot bot, double rotationPower) {
         this.bot = bot;
         this.rotationPower = rotationPower;
     }
