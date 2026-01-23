@@ -9,15 +9,19 @@ public class Config {
     public static double
             INTAKE_ROTATION_POWER = 1.00;
     public static double
-            YEETER_ROTATION_POWER_FULL = 1.00;
+            ASSIST_INTAKE_ROTATION_POWER = 1.00;
     public static double
-            YEETER_ROTATION_POWER_LESS = 0.325;
+            YEETER_ROTATION_POWER_FULL = 0.80;
+    public static double
+            YEETER_ROTATION_POWER_MEDIUM = 0.60;
+    public static double
+            YEETER_ROTATION_POWER_LESS = 0.40;
     public static double
             YEETER_ROTATION_POWER_AUTO = 0.3;
     public static double
-            SCOOPER_RECYCLE_POSITION = 0.0;
+            SCOOPER_RECYCLE_POSITION = 0.42;
     public static double
-            SCOOPER_CATCH_POSITION = 0.25;
+            SCOOPER_CATCH_POSITION = 0.55;
     public static double
             SCOOPER_YEET_POSITION = 0.8;
     public static double
@@ -30,4 +34,8 @@ public class Config {
             MIN_SHOOTING_DISTANCE = 4 * 12.0;
     public static double
             MAX_SHOOTING_DISTANCE = 5 * 12.0;
+    public static double
+            AUTO_FIELD_LATERAL_CORRECTION = 1.5;
+    public static double
+            AUTO_FIELD_YAW_CORRECTION = 0.1;
 }

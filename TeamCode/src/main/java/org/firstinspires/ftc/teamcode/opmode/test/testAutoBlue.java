@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
-@Autonomous(name = "autoBlue")
+@Autonomous(name = "autoBlue", group = "Test")
 @Disabled
 public class testAutoBlue extends LinearOpMode {
     Bot bot;

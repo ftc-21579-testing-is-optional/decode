@@ -1,31 +1,30 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
-public class DrumIntake {
+public class AssistIntake {
     private final Bot bot;
 
     private double rotationPower;
-    private DcMotor motor;
+    private CRServo servo;
 
-    public DrumIntake(Bot bot, double rotationPower) {
+    public AssistIntake(Bot bot, double rotationPower) {
         this.bot = bot;
         this.rotationPower = rotationPower;
     }
 
     public void init() {
-        this.motor = this.bot.hardwareMap.get(DcMotor.class, "motor7");
+        this.servo = this.bot.hardwareMap.get(CRServo.class, "assist_intake_servo");
 
         if (this.bot.isDebugMode()) {
-            this.bot.telemetry.addData("Intake", "Initialized");
+            this.bot.telemetry.addData("AssistIntake", "Initialized");
         }
     }
 
     private void setRotationDirection(int direction) {
-        this.motor.setPower(direction * this.rotationPower);
+        this.servo.setPower(direction * this.rotationPower);
     }
 
     public void setRotationDirection(IntakeDirection direction) {
@@ -35,11 +34,11 @@ public class DrumIntake {
                 break;
 
             case IN:
-                this.setRotationDirection(-1);
+                this.setRotationDirection(1);
                 break;
 
             case OUT:
-                this.setRotationDirection(1);
+                this.setRotationDirection(-1);
                 break;
         }
     }

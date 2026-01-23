@@ -24,22 +24,23 @@ public class teleop extends LinearOpMode {
 
         this.waitForStart();
 
-        double scooperPos = 0.0;
-
         while (opModeIsActive()) {
             // Drive control
             double axial = controls.getMotionAxial();
             double lateral = controls.getMotionLateral();
             double yaw = controls.getMotionYaw();
+
             bot.setDrivePower(axial, lateral, yaw);
 
             // Carousel and intake
             bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
-                bot.setCarWashIntakeDirection(IntakeDirection.IN); // turn intake on
+                bot.setDrumIntakeDirection(IntakeDirection.IN); // turn intake on
+                bot.setAssistIntakeDirection(IntakeDirection.IN);
             } else {
-                bot.setCarWashIntakeDirection(IntakeDirection.STOP); // turn intake off
+                bot.setDrumIntakeDirection(IntakeDirection.STOP); // turn intake off
+                bot.setAssistIntakeDirection(IntakeDirection.STOP);
             }
 
             // SCOOPER CONTROL
@@ -49,7 +50,7 @@ public class teleop extends LinearOpMode {
             // YEETER CONTROL
             YeeterMode yeeterMode = controls.getYeeterMode();
             bot.setYeeterMode(yeeterMode);
-
+//
 //            if (controls.getYeeterToggleState()) {
 //                bot.getYeeter().activate();   // motors on
 //            } else {

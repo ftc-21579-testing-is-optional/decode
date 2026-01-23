@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
-@TeleOp(name = "YeetTest")
+@TeleOp(name = "YeetTest", group = "Test")
 public class YeetTest extends LinearOpMode {
 
     private Bot bot;
@@ -52,9 +52,9 @@ public class YeetTest extends LinearOpMode {
             bot.setCarouselDirection(controls.getCarouselDirection());
 
             if (controls.getIntakeToggleState()) {
-                bot.setCarWashIntakeDirection(IntakeDirection.IN); // turn intake on
+                bot.setDrumIntakeDirection(IntakeDirection.IN); // turn intake on
             } else {
-                bot.setCarWashIntakeDirection(IntakeDirection.STOP); // turn intake off
+                bot.setDrumIntakeDirection(IntakeDirection.STOP); // turn intake off
             }
 
             // SCOOPER CONTROL

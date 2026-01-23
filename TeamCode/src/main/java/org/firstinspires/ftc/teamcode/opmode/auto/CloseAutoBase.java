@@ -35,7 +35,7 @@ public class CloseAutoBase extends LinearOpMode {
 
         this.time = new ElapsedTime();
 
-        this.bot.setCarWashIntakeDirection(IntakeDirection.IN);
+        this.bot.setDrumIntakeDirection(IntakeDirection.IN);
         this.bot.setYeeterMode(YeeterMode.AUTO);
         this.bot.setCarouselPower(0.5);
 

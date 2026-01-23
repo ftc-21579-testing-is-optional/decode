@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.common.config.Config;
 import org.firstinspires.ftc.teamcode.common.game.ArtifactColor;
+import org.firstinspires.ftc.teamcode.common.hardware.AssistIntake;
 import org.firstinspires.ftc.teamcode.common.hardware.Carousel;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ColorSensor;
@@ -32,6 +33,7 @@ public class Bot {
     private final Carousel carousel;
     private final CarWashIntake carWashIntake;
     private final DrumIntake drumIntake;
+    private final AssistIntake assistIntake;
     private final Scooper scooper;
     private final Yeeter yeeter;
 
@@ -49,8 +51,15 @@ public class Bot {
         this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER);
         this.carWashIntake = new CarWashIntake(this, Config.INTAKE_ROTATION_POWER);
         this.drumIntake = new DrumIntake(this, Config.INTAKE_ROTATION_POWER);
+        this.assistIntake = new AssistIntake(this, Config.ASSIST_INTAKE_ROTATION_POWER);
         this.scooper = new Scooper(this);
-        this.yeeter = new Yeeter(this, Config.YEETER_ROTATION_POWER_FULL, Config.YEETER_ROTATION_POWER_LESS, Config.YEETER_ROTATION_POWER_AUTO);
+        this.yeeter = new Yeeter(
+                this,
+                Config.YEETER_ROTATION_POWER_FULL,
+                Config.YEETER_ROTATION_POWER_MEDIUM,
+                Config.YEETER_ROTATION_POWER_LESS,
+                Config.YEETER_ROTATION_POWER_AUTO
+        );
 
         this.state = BotState.INIT;
         this.mode = BotMode.RUN;
@@ -63,6 +72,7 @@ public class Bot {
         this.carousel.init();
 //        this.carWashIntake.init();
         this.drumIntake.init();
+        this.assistIntake.init();
         this.scooper.init();
         this.yeeter.init();
     }
@@ -79,6 +89,7 @@ public class Bot {
         this.drive.init();
         this.carousel.init();
         this.drumIntake.init();
+        this.assistIntake.init();
         this.scooper.init();
         this.yeeter.init();
     }
@@ -114,7 +125,7 @@ public class Bot {
         double axial = y * cos - x * sin;
         double lateral = y * sin + x * cos;
 
-        this.drive.setPower(axial, lateral * 1.5, turnYaw - (lateral * 0.1));
+        this.drive.setPower(axial, lateral * Config.AUTO_FIELD_LATERAL_CORRECTION, turnYaw - (lateral * Config.AUTO_FIELD_YAW_CORRECTION));
     }
 
     public void setCarouselDirection(CarouselDirection direction) {
@@ -131,6 +142,10 @@ public class Bot {
 
     public void setDrumIntakeDirection(IntakeDirection direction) {
         this.drumIntake.setRotationDirection(direction);
+    }
+
+    public void setAssistIntakeDirection(IntakeDirection direction) {
+        this.assistIntake.setRotationDirection(direction);
     }
 
     public void setScooperState(ScooperState state) {

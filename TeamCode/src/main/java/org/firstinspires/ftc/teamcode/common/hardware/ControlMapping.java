@@ -90,8 +90,11 @@ public class ControlMapping {
     public YeeterMode getYeeterMode() {
         YeeterMode mode = YeeterMode.UNKNOWN;
 
-        if (this.gamepad.dpad_left) {
+        if (this.gamepad.left_stick_button) {
             mode = YeeterMode.STOP;
+        }
+        if (this.gamepad.dpad_left) {
+            mode = YeeterMode.MEDIUM;
         }
         else if (this.gamepad.dpad_up) {
             mode = YeeterMode.FULL;
