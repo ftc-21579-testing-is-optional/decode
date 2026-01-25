@@ -58,7 +58,9 @@ public class Bot {
                 Config.YEETER_ROTATION_POWER_FULL,
                 Config.YEETER_ROTATION_POWER_MEDIUM,
                 Config.YEETER_ROTATION_POWER_LESS,
-                Config.YEETER_ROTATION_POWER_AUTO
+                Config.YEETER_ROTATION_POWER_AUTO,
+                Config.YEETER_ROTATION_POWER_AUTO_LESS,
+                Config.YEETER_ROTATION_POWER_AUTO_FAR
         );
 
         this.state = BotState.INIT;

@@ -15,9 +15,13 @@ public class Config {
     public static double
             YEETER_ROTATION_POWER_MEDIUM = 0.60;
     public static double
-            YEETER_ROTATION_POWER_LESS = 0.40;
+            YEETER_ROTATION_POWER_LESS = 0.35;
     public static double
-            YEETER_ROTATION_POWER_AUTO = 0.3;
+            YEETER_ROTATION_POWER_AUTO = 0.35;
+    public static double
+            YEETER_ROTATION_POWER_AUTO_LESS = 0.35;
+    public static double
+            YEETER_ROTATION_POWER_AUTO_FAR = 0.75;
     public static double
             SCOOPER_RECYCLE_POSITION = 0.42;
     public static double

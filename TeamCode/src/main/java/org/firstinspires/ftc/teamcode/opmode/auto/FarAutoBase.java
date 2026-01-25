@@ -6,28 +6,39 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
+import org.firstinspires.ftc.teamcode.common.game.Motif;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
+import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
+import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+@Autonomous(name = "100% (not) working auto")
 public class FarAutoBase extends LinearOpMode {
     private Bot bot;
-    ElapsedTime time;
+    private ElapsedTime time;
 
     protected int allianceID = 0;
     protected int goalPosX = 0;
     protected int goalPosY = 0;
     private AprilTagDetection goalTag;
-    private double currentDistance = 1000;
+    private double currentDistance;
+    private Motif currentMotif = Motif.NONE;
 
     @Override
     public void runOpMode() throws InterruptedException {
         this.bot = new Bot(this.hardwareMap, this.telemetry);
+        this.bot.setDebug();
         this.bot.initSubSystems();
 
         this.waitForStart();
 
         this.time = new ElapsedTime();
+
+        this.bot.setDrumIntakeDirection(IntakeDirection.IN);
+        this.bot.setAssistIntakeDirection(IntakeDirection.IN);
+        this.bot.setYeeterMode(YeeterMode.FULL);
+        this.bot.setCarouselPower(0.5);
 
         boolean shouldShoot = false;
 
@@ -40,6 +51,21 @@ public class FarAutoBase extends LinearOpMode {
                 if (tag.metadata.id == this.allianceID) { // TODO: same as below, maybe add check to prevent mid-match false readings
                     this.goalTag = tag;
                 }
+                else { // TODO: maybe add condition here to check if motif is already set, not sure how bad a jittery motif could affect other code
+                    switch (tag.metadata.id) { // TODO: this needs testing, currently motifs for each id case are guesses
+                        case 21:
+                            this.currentMotif = Motif.GPP;
+                            break;
+
+                        case 22:
+                            this.currentMotif = Motif.PGP;
+                            break;
+
+                        case 23:
+                            this.currentMotif = Motif.PPG;
+                            break;
+                    }
+                }
             }
 
             if (this.goalTag != null) { // TODO: maybe try persistence counting
@@ -48,21 +74,19 @@ public class FarAutoBase extends LinearOpMode {
 
             this.telemetry.addData("distance", this.currentDistance);
 
-            if (this.currentDistance > 32) {
-                if (time.seconds() > 0 && time.seconds() < 2) {
-                    bot.setDrivePower(0.75, 0.0, 0.0);
-                }
-                if (time.seconds() > 2 && time.seconds() < 3) {
-                    bot.setDrivePower(0.0, 0.0, 0.15 * Math.signum(this.goalPosY));
-                }
-                if (time.seconds() > 3 && time.seconds() < 4) {
-                    bot.setDrivePower(0.5, 0.0, 0.0);
-                }
+//            if (this.currentDistance < 38) {
+//                this.bot.setDrivePower(-0.50, 0.0, 0.0); // TODO: probably increase speed, low speed just to start off with
+//
+//                shouldShoot = false;
+//            }
+//            else if (this.currentDistance > Config.MIN_SHOOTING_DISTANCE && this.currentDistance < Config.MAX_SHOOTING_DISTANCE) { // TODO: maybe remove upper limit and just go for shot no matter what?
+//                this.bot.setDrivePower(0.0, 0.0, 0.0);
+//
+//                // Do shooting routine
+//                // wait for color based on currentMotif? -> later once color sensor is functional
+//            }
 
-                shouldShoot = false;
-            }
-
-            if (this.currentDistance <= 32) {
+            if (this.currentDistance >= 38 || time.seconds() > 2) {
                 shouldShoot = true;
             }
 
@@ -70,15 +94,41 @@ public class FarAutoBase extends LinearOpMode {
                 this.bot.setDrivePower(0.0, 0.0, 0.0);
 
                 // START 1 shoot cycle
-                if (time.seconds() > 4 && time.seconds() < 5) {
+                if (time.seconds() > 2 && time.seconds() < 3) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 5 && time.seconds() < 5.5) {
+//                if (time.seconds() > 4 && time.seconds() < 4.75) {
+//                    bot.setCarouselDirection(CarouselDirection.UP);
+//                }
+//
+//                if (time.seconds() > 4.75 && time.seconds() < 5) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+//
+//                if (time.seconds() > 5 && time.seconds() < 6) {
+//                    bot.setCarouselDirection(CarouselDirection.STOP);
+//                }
+
+                if (time.seconds() > 3 && time.seconds() < 3.5) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+                if (time.seconds() > 4.5 && time.seconds() < 5) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 5 && time.seconds() < 5.75) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 5.5 && time.seconds() < 7) {
+//                if (time.seconds() > 4.75 && time.seconds() < 5) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+
+                if (time.seconds() > 6 && time.seconds() < 7) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
@@ -92,11 +142,15 @@ public class FarAutoBase extends LinearOpMode {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 10 && time.seconds() < 10.5) {
+                if (time.seconds() > 10 && time.seconds() < 10.25) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 10.5 && time.seconds() < 12) {
+//                if (time.seconds() > 15.25 && time.seconds() < 15) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+
+                if (time.seconds() > 10.25 && time.seconds() < 12) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
@@ -105,67 +159,73 @@ public class FarAutoBase extends LinearOpMode {
                 }
                 // END 1 shoot cycle
 
-                // START 1 shoot cycle
-                if (time.seconds() > 14 && time.seconds() < 15) {
+//                 START 1 shoot cycle
+                if (time.seconds() > 15 && time.seconds() < 16) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 15 && time.seconds() < 15.5) {
+                if (time.seconds() > 16 && time.seconds() < 16.75) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 15.5 && time.seconds() < 17) {
-                    bot.setCarouselDirection(CarouselDirection.STOP);
+                if (time.seconds() > 16.75 && time.seconds() < 17) {
+                    bot.setCarouselDirection(CarouselDirection.DOWN);
                 }
 
                 if (time.seconds() > 17 && time.seconds() < 18) {
-                    bot.setScooperState(ScooperState.YEET);
-                }
-                // END 1 shoot cycle
-
-                // START 1 shoot cycle
-                if (time.seconds() > 19 && time.seconds() < 20) {
-                    bot.setScooperState(ScooperState.CATCH);
-                }
-
-                if (time.seconds() > 20 && time.seconds() < 20.5) {
-                    bot.setCarouselDirection(CarouselDirection.UP);
-                }
-
-                if (time.seconds() > 20.5 && time.seconds() < 22) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
-                if (time.seconds() > 22 && time.seconds() < 23) {
+                if (time.seconds() > 18 && time.seconds() < 19) {
                     bot.setScooperState(ScooperState.YEET);
                 }
-                // END 1 shoot cycle
+//                 END 1 shoot cycle
 
-                // START 1 shoot cycle
-                if (time.seconds() > 24 && time.seconds() < 25) {
+//                 START 1 shoot cycle
+                if (time.seconds() > 23 && time.seconds() < 24) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 25 && time.seconds() < 25.5) {
+                if (time.seconds() > 24 && time.seconds() < 24.95) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 25.5 && time.seconds() < 27) {
+                if (time.seconds() > 24.75 && time.seconds() < 25) {
+                    bot.setCarouselDirection(CarouselDirection.DOWN);
+                }
+
+                if (time.seconds() > 25 && time.seconds() < 26) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
-                if (time.seconds() > 27 && time.seconds() < 28) {
+                if (time.seconds() > 26 && time.seconds() < 27) {
                     bot.setScooperState(ScooperState.YEET);
                 }
-                // END 1 shoot cycle
+//                 END 1 shoot cycle
             }
+
+            this.telemetry.addData("shouldShoot", shouldShoot);
+
+            this.telemetry.addData("currentMotif", this.currentMotif.name());
+
+            this.telemetry.update();
+
+            this.sleep(10);
+            this.idle();
         }
+    }
 
-        this.telemetry.addData("shouldShoot", shouldShoot);
+    public void waitForBall() {
+        boolean detection;
 
-        this.telemetry.update();
+        do {
+            detection = this.bot.isThereABall();
 
-        this.sleep(10);
-        this.idle();
+            this.telemetry.addData("Detection", detection);
+            this.telemetry.update();
+
+            this.sleep(10);
+            this.idle();
+        } while (!detection);
     }
 }

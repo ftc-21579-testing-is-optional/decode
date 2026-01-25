@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Autonomous(name = "100% (not) working auto")
+@Autonomous(name = "old close auto base (dont run)")
 public class CloseAutoBase extends LinearOpMode {
     private Bot bot;
     private ElapsedTime time;
@@ -36,6 +36,7 @@ public class CloseAutoBase extends LinearOpMode {
         this.time = new ElapsedTime();
 
         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
+        this.bot.setAssistIntakeDirection(IntakeDirection.IN);
         this.bot.setYeeterMode(YeeterMode.AUTO);
         this.bot.setCarouselPower(0.5);
 
@@ -73,8 +74,8 @@ public class CloseAutoBase extends LinearOpMode {
 
             this.telemetry.addData("distance", this.currentDistance);
 
-            if (this.currentDistance < 28) {
-                this.bot.setDrivePower(-0.25, 0.0, 0.0); // TODO: probably increase speed, low speed just to start off with
+            if (this.currentDistance < 38) {
+                this.bot.setDrivePower(-0.50, 0.0, 0.0); // TODO: probably increase speed, low speed just to start off with
 
                 shouldShoot = false;
             }
@@ -85,7 +86,7 @@ public class CloseAutoBase extends LinearOpMode {
 //                // wait for color based on currentMotif? -> later once color sensor is functional
 //            }
 
-            if (this.currentDistance >= 28) {
+            if (this.currentDistance >= 38 || time.seconds() > 2) {
                 shouldShoot = true;
             }
 
@@ -93,15 +94,41 @@ public class CloseAutoBase extends LinearOpMode {
                 this.bot.setDrivePower(0.0, 0.0, 0.0);
 
                 // START 1 shoot cycle
-                if (time.seconds() > 3 && time.seconds() < 4) {
+                if (time.seconds() > 2 && time.seconds() < 3) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 4 && time.seconds() < 4.5) {
+//                if (time.seconds() > 4 && time.seconds() < 4.75) {
+//                    bot.setCarouselDirection(CarouselDirection.UP);
+//                }
+//
+//                if (time.seconds() > 4.75 && time.seconds() < 5) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+//
+//                if (time.seconds() > 5 && time.seconds() < 6) {
+//                    bot.setCarouselDirection(CarouselDirection.STOP);
+//                }
+
+                if (time.seconds() > 3 && time.seconds() < 3.5) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+                if (time.seconds() > 3.5 && time.seconds() < 4) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 4 && time.seconds() < 4.75) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 4.5 && time.seconds() < 6) {
+//                if (time.seconds() > 4.75 && time.seconds() < 5) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+
+                if (time.seconds() > 5 && time.seconds() < 6) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
@@ -111,69 +138,110 @@ public class CloseAutoBase extends LinearOpMode {
                 // END 1 shoot cycle
 
                 // START 1 shoot cycle
-                if (time.seconds() > 8 && time.seconds() < 9) {
+                if (time.seconds() > 7 && time.seconds() < 8) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 9 && time.seconds() < 9.5) {
+                if (time.seconds() > 8 && time.seconds() < 9.25) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 9.5 && time.seconds() < 11) {
+//                if (time.seconds() > 15.25 && time.seconds() < 15) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+
+                if (time.seconds() > 9.25 && time.seconds() < 10) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
-                if (time.seconds() > 11 && time.seconds() < 12) {
+                if (time.seconds() > 10 && time.seconds() < 11) {
                     bot.setScooperState(ScooperState.YEET);
                 }
                 // END 1 shoot cycle
 
                 // START 1 shoot cycle
+//                if (time.seconds() > 15 && time.seconds() < 16) {
+//                    bot.setScooperState(ScooperState.CATCH);
+//                }
+//
+//                if (time.seconds() > 16 && time.seconds() < 16.75) {
+//                    bot.setCarouselDirection(CarouselDirection.UP);
+//                }
+//
+//                if (time.seconds() > 16.75 && time.seconds() < 17) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+//
+//                if (time.seconds() > 17 && time.seconds() < 18) {
+//                    bot.setCarouselDirection(CarouselDirection.STOP);
+//                }
+//
+//                if (time.seconds() > 18 && time.seconds() < 19) {
+//                    bot.setScooperState(ScooperState.YEET);
+//                }
+                // END 1 shoot cycle
+
+                // START 1 shoot cycle
+//                if (time.seconds() > 23 && time.seconds() < 24) {
+//                    bot.setScooperState(ScooperState.CATCH);
+//                }
+//
+//                if (time.seconds() > 24 && time.seconds() < 24.95) {
+//                    bot.setCarouselDirection(CarouselDirection.UP);
+//                }
+//
+//                if (time.seconds() > 24.75 && time.seconds() < 25) {
+//                    bot.setCarouselDirection(CarouselDirection.DOWN);
+//                }
+//
+//                if (time.seconds() > 25 && time.seconds() < 26) {
+//                    bot.setCarouselDirection(CarouselDirection.STOP);
+//                }
+//
+//                if (time.seconds() > 26 && time.seconds() < 27) {
+//                    bot.setScooperState(ScooperState.YEET);
+//                }
+                // END 1 shoot cycle
+
+                // Move at end
                 if (time.seconds() > 13 && time.seconds() < 14) {
+                    bot.setDrivePower(0.0, 0.6, 0.0);
                     bot.setScooperState(ScooperState.CATCH);
-                }
-
-                if (time.seconds() > 14 && time.seconds() < 14.5) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 14.5 && time.seconds() < 16) {
+                if (time.seconds() > 14 && time.seconds() < 15) {
+                    bot.setDrivePower(0.0, 0.0, 0.27 * Math.signum(this.goalPosY));
+                }
+
+                if (time.seconds() > 15 && time.seconds() < 17.5) {
+                    bot.setDrivePower(0.35, 0.0, 0.0);
+                }
+
+                if (time.seconds() > 19.5 && time.seconds() < 22) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
+
+                    bot.setDrivePower(-0.30, 0.0, 0.0);
                 }
 
-                if (time.seconds() > 16 && time.seconds() < 17) {
-                    bot.setScooperState(ScooperState.YEET);
+                if (time.seconds() > 22 && time.seconds() < 23) {
+                    bot.setDrivePower(0.0, 0.0, -0.40 * Math.signum(this.goalPosY));
                 }
-                // END 1 shoot cycle
-
-                // START 1 shoot cycle
-                if (time.seconds() > 18 && time.seconds() < 19) {
-                    bot.setScooperState(ScooperState.CATCH);
-                }
-
-                if (time.seconds() > 19 && time.seconds() < 19.5) {
-                    bot.setCarouselDirection(CarouselDirection.UP);
-                }
-
-                if (time.seconds() > 19.5 && time.seconds() < 21) {
-                    bot.setCarouselDirection(CarouselDirection.STOP);
-                }
-
-                if (time.seconds() > 21 && time.seconds() < 22) {
-                    bot.setScooperState(ScooperState.YEET);
-                }
-                // END 1 shoot cycle
 
                 // START 1 shoot cycle
                 if (time.seconds() > 23 && time.seconds() < 24) {
                     bot.setScooperState(ScooperState.CATCH);
                 }
 
-                if (time.seconds() > 24 && time.seconds() < 24.5) {
+                if (time.seconds() > 24 && time.seconds() < 24.75) {
                     bot.setCarouselDirection(CarouselDirection.UP);
                 }
 
-                if (time.seconds() > 24.5 && time.seconds() < 26) {
+                if (time.seconds() > 24.75 && time.seconds() < 25) {
+                    bot.setCarouselDirection(CarouselDirection.DOWN);
+                }
+
+                if (time.seconds() > 25 && time.seconds() < 26) {
                     bot.setCarouselDirection(CarouselDirection.STOP);
                 }
 
@@ -182,14 +250,27 @@ public class CloseAutoBase extends LinearOpMode {
                 }
                 // END 1 shoot cycle
 
-                // Move laterally at end
-//                if (time.seconds() > 27 && time.seconds() < 28) {
-//                    bot.setDrivePower(0.0, 0.75 * Math.signum(this.goalPosY), 0.0);
-//                }
-//
-//                if (time.seconds() > 28 && time.seconds() < 30) {
-//                    bot.setDrivePower(0.0, 0.0, 0.0);
-//                }
+                // START 1 shoot cycle
+                if (time.seconds() > 27 && time.seconds() < 28) {
+                    bot.setScooperState(ScooperState.CATCH);
+                }
+
+                if (time.seconds() > 28 && time.seconds() < 28.75) {
+                    bot.setCarouselDirection(CarouselDirection.UP);
+                }
+
+                if (time.seconds() > 28.75 && time.seconds() < 29) {
+                    bot.setCarouselDirection(CarouselDirection.DOWN);
+                }
+
+                if (time.seconds() > 29 && time.seconds() < 30) {
+                    bot.setCarouselDirection(CarouselDirection.STOP);
+                }
+
+                if (time.seconds() > 30 && time.seconds() < 31) {
+                    bot.setScooperState(ScooperState.YEET);
+                }
+                // END 1 shoot cycle
             }
 
             this.telemetry.addData("shouldShoot", shouldShoot);

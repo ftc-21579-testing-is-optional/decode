@@ -8,4 +8,6 @@ public enum YeeterMode {
     MEDIUM,
     FULL,
     AUTO,
+    AUTO_LESS,
+    AUTO_FAR,
 }
