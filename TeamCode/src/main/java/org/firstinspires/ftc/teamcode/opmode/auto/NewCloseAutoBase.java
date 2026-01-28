@@ -32,7 +32,7 @@ public class NewCloseAutoBase extends LinearOpMode {
 
         CommandExecutor cmdExec = new CommandExecutor();
 
-        // delay for driving to shooting distance
+        // delay to allow for driving to shooting distance
         cmdExec.add(2.1, () -> {
             bot.setYeeterMode(YeeterMode.AUTO_LESS);
         });
@@ -92,14 +92,14 @@ public class NewCloseAutoBase extends LinearOpMode {
 
         // turn to face line of artifacts
         cmdExec.add(0.75, () -> {
-            double multiplier = (this.goalPosY < 0) ? 1 : 1.25;
+            double multiplier = (this.goalPosY < 0) ? 1 : 1.25; // fix inconsistencies
 
             bot.setDrivePower(0.0, 0.0, 0.35 * Math.signum(this.goalPosY) * multiplier);
         });
 
         // move laterally again
         cmdExec.add(0.5, () -> {
-            double multiplier = (this.goalPosY < 0) ? 1.6 : 0;
+            double multiplier = (this.goalPosY < 0) ? 1.6 : 0; // fix inconsistencies
 
             bot.setDrivePower(0.0, -0.25 * Math.signum(this.goalPosY) * multiplier, 0.0);
         });
@@ -210,14 +210,14 @@ public class NewCloseAutoBase extends LinearOpMode {
 
             this.telemetry.addData("distance", this.currentDistance);
 
-            if (this.currentDistance < 38) {
+            if (this.currentDistance < 38) { // drive to what is supposed to be 38 inches
                 this.bot.setDrivePower(-0.45, 0.0, 0.0);
             }
-            if (this.currentDistance >= 38 || (time.seconds() > 2 && time.seconds() <= 2.1)) {
+            if (this.currentDistance >= 38 || (time.seconds() > 2 && time.seconds() <= 2.1)) { // stop once at 38 inches or after 2 seconds
                 this.bot.setDrivePower(0.0, 0.0, 0.0);
             }
 
-            cmdExec.run(time.seconds());
+            cmdExec.run(time.seconds()); // run commands based on the elapsed time
 
             this.telemetry.update();
 
