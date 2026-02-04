@@ -60,16 +60,16 @@ public class ControlMappingTwoDriver {
         }
     }
 
-    private boolean prevDpadDown = false;  // track previous press
+    private boolean prevCIRCLE = false;  // track previous press
     private boolean intakeState = false;   // current toggle state
 
     /** Call each loop; returns true if intake should be active */
-    public boolean getIntakeToggleState() {
-        if (this.gamepad2.dpad_down && !this.prevDpadDown) {
+    public boolean getIntakeToggleState() { //Driver controls intake
+        if (this.gamepad1.circle && !this.prevCIRCLE) {
             this.intakeState = !this.intakeState;  // flip toggle
         }
 
-        this.prevDpadDown = this.gamepad2.dpad_down;
+        this.prevCIRCLE = this.gamepad1.circle;
 
         return this.intakeState;
     }
@@ -109,7 +109,7 @@ public class ControlMappingTwoDriver {
         return mode;
     }
 
-//    private boolean prevDpadUp = false;  // track previous Cross press
+//    private boolean prevDpadUp = false;
 //    private boolean yeeterState = false; // current toggle state
 //
 //    /** Call each loop; returns true if Yeeter should be active */
@@ -126,7 +126,7 @@ public class ControlMappingTwoDriver {
 //        return this.yeeterState;
 //    }
 //
-//    private boolean prevDpadLeft = false;  // track previous Cross pres
+//    private boolean prevDpadLeft = false;
 //    public boolean getYeeterToggleStateLess() {
 //        // Detect new press
 //        if (this.gamepad2.dpad_left && !this.prevDpadLeft) {
