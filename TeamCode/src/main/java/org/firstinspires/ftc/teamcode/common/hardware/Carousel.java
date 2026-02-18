@@ -8,13 +8,15 @@ public class Carousel {
     private final Bot bot;
 
     private double rotationPower;
+    private double rotationPowerSlow;
     private DcMotor carouselMotor;
 
     private CarouselDirection lastDirection;
 
-    public Carousel(Bot bot, double rotationPower) {
+    public Carousel(Bot bot, double rotationPower, double rotationPowerSlow) {
         this.bot = bot;
         this.rotationPower = rotationPower;
+        this.rotationPowerSlow = rotationPowerSlow;
     }
 
     public void init() {
@@ -25,12 +27,18 @@ public class Carousel {
         }
     }
 
-    public void setRotationDirection(int direction) {
-        this.carouselMotor.setPower(direction * this.rotationPower);
+    private void setPower(double power) {
+        this.carouselMotor.setPower(power);
     }
 
+//    public void setRotationDirection(int direction) {
+//        this.carouselMotor.setPower(direction * this.rotationPower);
+//    }
+
     public void setRotationDirection(CarouselDirection direction) {
-        bot.telemetry.addData("carouselDirection", direction.name());
+        if (this.bot.isDebugMode()) {
+            bot.telemetry.addData("carouselDirection", direction.name());
+        }
 
         if (this.lastDirection == direction) {
             return;
@@ -38,22 +46,30 @@ public class Carousel {
 
         switch (direction) {
             case STOP:
-                this.setRotationDirection(0);
+                this.setPower(0);
                 break;
 
             case UP:
-                this.setRotationDirection(1);
+                this.setPower(this.rotationPower);
+                break;
+
+            case UP_SLOW:
+                this.setPower(this.rotationPowerSlow);
                 break;
 
             case DOWN:
-                this.setRotationDirection(-1);
+                this.setPower(-this.rotationPower);
+                break;
+
+            case DOWN_SLOW:
+                this.setPower(-this.rotationPowerSlow);
                 break;
         }
 
         this.lastDirection = direction;
     }
 
-    public void setRotationPower(double power) {
-        this.rotationPower = power;
-    }
+//    public void setRotationPower(double power) {
+//        this.rotationPower = power;
+//    }
 }

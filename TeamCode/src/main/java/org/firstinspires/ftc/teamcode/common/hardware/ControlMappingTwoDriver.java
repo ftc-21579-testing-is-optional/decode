@@ -61,15 +61,27 @@ public class ControlMappingTwoDriver {
     }
 
     private boolean prevCIRCLE = false;  // track previous press
-    private boolean intakeState = false;   // current toggle state
+    private boolean prevSQUARE = false;  // track previous press
+    private boolean prevCROSS = false;  // track previous press
+    private IntakeDirection intakeState = IntakeDirection.STOP;   // current toggle state
 
     /** Call each loop; returns true if intake should be active */
-    public boolean getIntakeToggleState() { //Driver controls intake
+    public IntakeDirection getIntakeToggleState() { //Driver controls intake
         if (this.gamepad1.circle && !this.prevCIRCLE) {
-            this.intakeState = !this.intakeState;  // flip toggle
+            this.intakeState = IntakeDirection.OUT;
+        }
+
+        if (this.gamepad1.square && !this.prevSQUARE) {
+            this.intakeState = IntakeDirection.IN;
+        }
+
+        if (this.gamepad1.cross && !this.prevCROSS) {
+            this.intakeState = IntakeDirection.STOP;
         }
 
         this.prevCIRCLE = this.gamepad1.circle;
+        this.prevSQUARE = this.gamepad1.square;
+        this.prevCROSS = this.gamepad1.cross;
 
         return this.intakeState;
     }

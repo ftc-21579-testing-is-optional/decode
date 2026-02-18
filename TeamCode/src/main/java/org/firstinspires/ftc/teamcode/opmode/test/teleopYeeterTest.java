@@ -1,17 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmode.teleop;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.ControlMapping;
-import org.firstinspires.ftc.teamcode.common.hardware.ControlMappingTwoDriver;
 import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 
-@TeleOp(name = "teleop two driver")
-public class teleopTwoDriver extends LinearOpMode {
+@TeleOp(name = "teleopYeeterTest")
+public class teleopYeeterTest extends LinearOpMode {
 
     private Bot bot;
 
@@ -21,9 +20,13 @@ public class teleopTwoDriver extends LinearOpMode {
         bot.initSubSystems();
         bot.setDebug();
 
-        ControlMappingTwoDriver controls = new ControlMappingTwoDriver(this.gamepad1, this.gamepad2);
+        ControlMapping controls = new ControlMapping(gamepad1);
 
         this.waitForStart();
+
+        boolean prevLeft = false;
+        boolean prevRight = false;
+        double power = 0.0;
 
         while (opModeIsActive()) {
             // Drive control
@@ -36,18 +39,32 @@ public class teleopTwoDriver extends LinearOpMode {
             // Carousel and intake
             bot.setCarouselDirection(controls.getCarouselDirection());
 
-            // INTAKE CONTROL
-            IntakeDirection intakeDirection = controls.getIntakeToggleState();
-            bot.setDrumIntakeDirection(intakeDirection);
-            bot.setAssistIntakeDirection(intakeDirection);
+            if (controls.getIntakeToggleState()) {
+                bot.setDrumIntakeDirection(IntakeDirection.IN); // turn intake on
+                bot.setAssistIntakeDirection(IntakeDirection.IN);
+            } else {
+                bot.setDrumIntakeDirection(IntakeDirection.STOP); // turn intake off
+                bot.setAssistIntakeDirection(IntakeDirection.STOP);
+            }
 
             // SCOOPER CONTROL
             ScooperState scooperState = controls.getScooperState();
             bot.setScooperState(scooperState);
 
             // YEETER CONTROL
-            YeeterMode yeeterMode = controls.getYeeterMode();
-            bot.setYeeterMode(yeeterMode);
+            if (this.gamepad1.dpad_left && !prevLeft) {
+                power += 0.1;
+            }
+
+            prevLeft = this.gamepad1.dpad_left;
+
+            if (this.gamepad1.dpad_right && !prevRight) {
+                power -= 0.1;
+            }
+
+            prevRight = this.gamepad1.dpad_right;
+
+            bot.setYeeterPower(power);
 //
 //            if (controls.getYeeterToggleState()) {
 //                bot.getYeeter().activate();   // motors on
@@ -62,8 +79,8 @@ public class teleopTwoDriver extends LinearOpMode {
 //            }
 
             // Telemetry
+            telemetry.addData("Power", power);
             telemetry.update();
-            telemetry.addData("Power", "power");
 
             // Loop delay
             sleep(10);

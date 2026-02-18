@@ -77,7 +77,6 @@ public class Drive {
             backRightPower  /= max;
         }
 
-
         // Send calculated power to wheels
         frontLeftDrive.setPower(frontLeftPower);
         frontRightDrive.setPower(frontRightPower);

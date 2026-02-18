@@ -48,7 +48,7 @@ public class Bot {
         this.drive = new Drive(this);
         this.vision = new Vision(this);
         this.colorSensor = new ColorSensor(this);
-        this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER);
+        this.carousel = new Carousel(this, Config.CAROUSEL_ROTATION_POWER, Config.CAROUSEL_ROTATION_POWER_SLOW);
         this.carWashIntake = new CarWashIntake(this, Config.INTAKE_ROTATION_POWER);
         this.drumIntake = new DrumIntake(this, Config.INTAKE_ROTATION_POWER);
         this.assistIntake = new AssistIntake(this, Config.ASSIST_INTAKE_ROTATION_POWER);
@@ -69,7 +69,7 @@ public class Bot {
 
     public void initSubSystems() {
         this.drive.init();
-        this.vision.init();
+//        this.vision.init();
 //        this.colorSensor.init();
         this.carousel.init();
 //        this.carWashIntake.init();
@@ -134,9 +134,9 @@ public class Bot {
         this.carousel.setRotationDirection(direction);
     }
 
-    public void setCarouselDirection(int direction) {
-        this.carousel.setRotationDirection(direction);
-    }
+//    public void setCarouselDirection(int direction) {
+//        this.carousel.setRotationDirection(direction);
+//    }
 
     public void setCarWashIntakeDirection(IntakeDirection direction) {
         this.carWashIntake.setRotationDirection(direction);
@@ -156,6 +156,10 @@ public class Bot {
 
     public void setYeeterMode(YeeterMode mode) {
         this.yeeter.setMode(mode);
+    }
+
+    public void setYeeterPower(double power) {
+        this.yeeter.setPower(power);
     }
 
     public List<AprilTagDetection> getAprilTagDetections() {
@@ -196,7 +200,7 @@ public class Bot {
         return totalColor > 0.003;
     }
 
-    public void setCarouselPower(double power) {
-        this.carousel.setRotationPower(power);
-    }
+//    public void setCarouselPower(double power) {
+//        this.carousel.setRotationPower(power);
+//    }
 }

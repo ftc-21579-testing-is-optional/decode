@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Autonomous(name = "100% (not) working auto")
 public class FarAutoBase extends LinearOpMode {
     private Bot bot;
     private ElapsedTime time;
@@ -38,7 +37,7 @@ public class FarAutoBase extends LinearOpMode {
         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
         this.bot.setYeeterMode(YeeterMode.FULL);
-        this.bot.setCarouselPower(0.5);
+//        this.bot.setCarouselPower(0.5);
 
         boolean shouldShoot = false;
 

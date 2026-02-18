@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,7 +12,6 @@ import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.teamcode.common.util.CommandExecutor.CommandExecutor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Autonomous(name = "new close auto base (dont run)")
 public class NewCloseAutoBase extends LinearOpMode {
     private Bot bot;
     private ElapsedTime time;
@@ -187,7 +185,7 @@ public class NewCloseAutoBase extends LinearOpMode {
         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
         this.bot.setYeeterMode(YeeterMode.AUTO);
-        this.bot.setCarouselPower(0.5);
+//        this.bot.setCarouselPower(0.5);
 
         while (this.opModeIsActive()) {
             for (AprilTagDetection tag : bot.getAprilTagDetections()) {

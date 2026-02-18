@@ -15,7 +15,11 @@ public class CommandExecutor {
     }
 
     public void add(double duration, CommandFunction function) {
-        this.commands.add(new Command(duration, function));
+        this.commands.add(new Command(duration, 0.0, function));
+    }
+
+    public void reset() {
+        this.commands.clear();
     }
 
     public void run(double currentTime) {
