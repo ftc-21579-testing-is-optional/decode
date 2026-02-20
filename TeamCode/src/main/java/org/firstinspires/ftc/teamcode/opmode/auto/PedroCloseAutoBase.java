@@ -167,7 +167,7 @@ public class PedroCloseAutoBase extends OpMode {
                         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
                         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
                         this.bot.setScooperState(ScooperState.CATCH);
-                        this.bot.setCarouselDirection(CarouselDirection.UP);
+                        this.bot.setCarouselDirection(CarouselDirection.UP_SLOW);
                         this.setPathState(2);
                     });
 
@@ -198,7 +198,7 @@ public class PedroCloseAutoBase extends OpMode {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(this.paths.Path3, 0.325, true); // 3 6 9 less power
+                    follower.followPath(this.paths.Path3, 0.35, true); // 3 6 9 less power
                     this.setPathState(4);
                 }
                 break;
@@ -242,7 +242,7 @@ public class PedroCloseAutoBase extends OpMode {
                     this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
-                    this.cmd.add(0.50, () -> {
+                    this.cmd.add(0.40, () -> {
                         bot.setCarouselDirection(CarouselDirection.UP);
                     });
                     this.cmd.add(0.05, () -> {
@@ -278,7 +278,7 @@ public class PedroCloseAutoBase extends OpMode {
                         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
                         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
                         this.bot.setScooperState(ScooperState.CATCH);
-                        this.bot.setCarouselDirection(CarouselDirection.UP);
+                        this.bot.setCarouselDirection(CarouselDirection.UP_SLOW);
                         this.setPathState(6);
                     });
 
@@ -298,7 +298,7 @@ public class PedroCloseAutoBase extends OpMode {
                 break;
             case 7:
                 if (!follower.isBusy()) {
-                    follower.followPath(this.paths.Path6, 0.325, true);
+                    follower.followPath(this.paths.Path6, 0.35, true);
                     this.setPathState(8);
                 }
                 break;
@@ -342,7 +342,7 @@ public class PedroCloseAutoBase extends OpMode {
                     this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
-                    this.cmd.add(0.50, () -> {
+                    this.cmd.add(0.40, () -> {
                         bot.setCarouselDirection(CarouselDirection.UP);
                     });
                     this.cmd.add(0.05, () -> {
@@ -378,7 +378,7 @@ public class PedroCloseAutoBase extends OpMode {
                         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
                         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
                         this.bot.setScooperState(ScooperState.CATCH);
-                        this.bot.setCarouselDirection(CarouselDirection.UP);
+                        this.bot.setCarouselDirection(CarouselDirection.UP_SLOW);
                         this.setPathState(10);
                     });
 

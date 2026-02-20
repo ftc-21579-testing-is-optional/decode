@@ -100,7 +100,7 @@ public class ClosePathsBlue extends ClosePathsBase {
                         new BezierLine(
                                 new Pose(21.256, 37.826),
 
-                                new Pose(59.446, 95.934)
+                                new Pose(59.446 - 36, 95.934 - 36)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(144))
 

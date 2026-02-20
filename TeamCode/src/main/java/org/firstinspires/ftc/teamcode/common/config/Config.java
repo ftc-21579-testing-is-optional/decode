@@ -7,7 +7,7 @@ public class Config {
     public static double
             CAROUSEL_ROTATION_POWER = 0.50;
     public static double
-            CAROUSEL_ROTATION_POWER_SLOW = 0.20;
+            CAROUSEL_ROTATION_POWER_SLOW = 0.45;
     public static double
             INTAKE_ROTATION_POWER = 1.00;
     public static double
@@ -23,7 +23,7 @@ public class Config {
     public static double
             YEETER_ROTATION_POWER_AUTO_LESS = 0.35;
     public static double
-            YEETER_ROTATION_POWER_AUTO_FAR = 0.55;
+            YEETER_ROTATION_POWER_AUTO_FAR = 0.45;
     public static double
             SCOOPER_RECYCLE_POSITION = 0.45; // 0.42
     public static double

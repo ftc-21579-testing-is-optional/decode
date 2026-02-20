@@ -48,18 +48,6 @@ public class teleopTwoDriver extends LinearOpMode {
             // YEETER CONTROL
             YeeterMode yeeterMode = controls.getYeeterMode();
             bot.setYeeterMode(yeeterMode);
-//
-//            if (controls.getYeeterToggleState()) {
-//                bot.getYeeter().activate();   // motors on
-//            } else {
-//                bot.getYeeter().deactivate(); // motors off
-//            }
-//
-//            if (controls.getYeeterToggleStateLess()) {
-//                bot.getYeeter().activateLess();   // motors on
-//            } else {
-//                bot.getYeeter().deactivate(); // motors off
-//            }
 
             // Telemetry
             telemetry.update();

@@ -101,7 +101,7 @@ public class ClosePathsRed extends ClosePathsBase {
                         new BezierLine(
                                 new Pose(122.860, 36.934),
 
-                                new Pose(87.860, 95.636)
+                                new Pose(87.860 + 36, 95.636 - 36)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(36))
 
