@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.bylazar.telemetry.TelemetryManager;
-import com.bylazar.telemetry.PanelsTelemetry;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.CarouselDirection;
@@ -12,19 +14,16 @@ import org.firstinspires.ftc.teamcode.common.hardware.IntakeDirection;
 import org.firstinspires.ftc.teamcode.common.hardware.ScooperState;
 import org.firstinspires.ftc.teamcode.common.hardware.YeeterMode;
 import org.firstinspires.ftc.teamcode.common.util.CommandExecutor.CommandExecutor;
-import org.firstinspires.ftc.teamcode.opmode.auto.paths.ClosePathsBase;
+import org.firstinspires.ftc.teamcode.opmode.auto.paths.FarCornerPathsBase;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
-
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
 
 //@Autonomous(name = "PedroCloseAuto", group = "Autonomous")
 //@Configurable // Panels
-public class PedroCloseAutoBase extends OpMode {
+public class PedroCornerFarAutoBase extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
     public Follower follower; // Pedro Pathing follower instance
     private int pathState; // Current autonomous path state (state machine)
-    protected ClosePathsBase paths; // Paths defined in the Paths class
+    protected FarCornerPathsBase paths; // Paths defined in the Paths class
     protected Pose startPose;
 
     private Timer cmdExecutorTimer;
@@ -50,20 +49,13 @@ public class PedroCloseAutoBase extends OpMode {
 
         panelsTelemetry.addData("Status", "Initialized");
         panelsTelemetry.update(telemetry);
-
-//        Drawing.init();
     }
 
     @Override
     public void start() {
         cmdExecutorTimer.resetTimer();
-        bot.setYeeterMode(YeeterMode.AUTO);
+        bot.setYeeterMode(YeeterMode.AUTO_FAR);
     }
-
-//    @Override
-//    public void init_loop() {
-//        this.drawOnlyCurrent();
-//    }
 
     @Override
     public void loop() {
@@ -78,21 +70,7 @@ public class PedroCloseAutoBase extends OpMode {
         panelsTelemetry.addData("# Commands", cmd.commands.size());
         panelsTelemetry.addData("Command Time", cmdExecutorTimer.getElapsedTime());
         panelsTelemetry.update(telemetry);
-
-//        this.draw();
     }
-
-//    public void drawOnlyCurrent() {
-//        try {
-//            Drawing.drawRobot(this.follower.getPose());
-//            Drawing.sendPacket();
-//        } catch (Exception e) {
-//            throw new RuntimeException("Drawing failed " + e);
-//        }
-//    }
-//    public void draw() {
-//        Drawing.drawDebug(this.follower);
-//    }
 
     public void setPathState(int pState) {
         this.pathState = pState;
@@ -121,7 +99,7 @@ public class PedroCloseAutoBase extends OpMode {
 
                     // shoot 3 artifacts
                     // shoot preloaded artifact
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
                     this.cmd.add(0.25, () -> {
@@ -129,18 +107,16 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {
-                        bot.setYeeterMode(YeeterMode.AUTO);
-                    });
+                    this.cmd.add(2.0, () -> {});
 
                     // 2nd shot
-                    this.cmd.add(0.5, () -> {
+                    this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
                     this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.UP);
                     });
-                    this.cmd.add(0.35, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
                     this.cmd.add(0.25, () -> {
@@ -148,7 +124,7 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 3rd shoot
                     this.cmd.add(0.5, () -> {
@@ -157,13 +133,13 @@ public class PedroCloseAutoBase extends OpMode {
                     this.cmd.add(0.7, () -> { // run this for longer than 2nd shot
                         bot.setCarouselDirection(CarouselDirection.UP);
                     });
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
-                    this.cmd.add(0.5, () -> {
+                    this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.YEET);
                     });
-                    this.cmd.add(0.5, () -> {
+                    this.cmd.add(0.25, () -> {
                         this.bot.setDrumIntakeDirection(IntakeDirection.IN);
                         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
                         this.bot.setScooperState(ScooperState.CATCH);
@@ -220,7 +196,7 @@ public class PedroCloseAutoBase extends OpMode {
 
                     // shoot newly loaded artifacts
                     // 1st shot
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.5, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                         this.bot.setDrumIntakeDirection(IntakeDirection.STOP);
                         this.bot.setAssistIntakeDirection(IntakeDirection.STOP);
@@ -236,19 +212,19 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 2nd shot
                     this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
-                    this.cmd.add(0.40, () -> {
-                        bot.setCarouselDirection(CarouselDirection.UP_SLOW);
+                    this.cmd.add(0.50, () -> {
+                        bot.setCarouselDirection(CarouselDirection.UP);
                     });
                     this.cmd.add(0.05, () -> {
 //                        bot.setCarouselDirection(CarouselDirection.DOWN);
                     });
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
                     this.cmd.add(0.25, () -> {
@@ -256,7 +232,7 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 3rd shot
                     this.cmd.add(0.25, () -> {
@@ -268,7 +244,7 @@ public class PedroCloseAutoBase extends OpMode {
                     this.cmd.add(0.05, () -> {
 //                        bot.setCarouselDirection(CarouselDirection.DOWN);
                     });
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
                     this.cmd.add(0.25, () -> {
@@ -298,18 +274,29 @@ public class PedroCloseAutoBase extends OpMode {
                 break;
             case 7:
                 if (!follower.isBusy()) {
-                    follower.followPath(this.paths.Path6, 0.35, true);
+                    follower.followPath(this.paths.Path6, true);
+
+                    this.bot.setScooperState(ScooperState.RECYCLE);
+                    this.bot.setCarouselDirection(CarouselDirection.UP_SLOW);
+                    this.bot.setDrumIntakeDirection(IntakeDirection.IN);
+                    this.bot.setAssistIntakeDirection(IntakeDirection.IN);
+
                     this.setPathState(8);
                 }
                 break;
             case 8:
                 if (!follower.isBusy()) {
-                    this.bot.setCarouselDirection(CarouselDirection.STOP);
                     follower.followPath(this.paths.Path7, true);
                     this.setPathState(9);
                 }
                 break;
             case 9:
+                if (!follower.isBusy()) {
+                    follower.followPath(this.paths.Path8, true);
+                    this.setPathState(10);
+                }
+                break;
+            case 10:
                 if (follower.isBusy()) {
                     break;
                 }
@@ -336,19 +323,19 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 2nd shot
                     this.cmd.add(0.25, () -> {
                         bot.setScooperState(ScooperState.CATCH);
                     });
-                    this.cmd.add(0.40, () -> {
-                        bot.setCarouselDirection(CarouselDirection.UP_SLOW);
+                    this.cmd.add(0.50, () -> {
+                        bot.setCarouselDirection(CarouselDirection.UP);
                     });
                     this.cmd.add(0.05, () -> {
 //                        bot.setCarouselDirection(CarouselDirection.DOWN);
                     });
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
                     this.cmd.add(0.25, () -> {
@@ -356,7 +343,7 @@ public class PedroCloseAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 3rd shot
                     this.cmd.add(0.25, () -> {
@@ -368,7 +355,7 @@ public class PedroCloseAutoBase extends OpMode {
                     this.cmd.add(0.05, () -> {
 //                        bot.setCarouselDirection(CarouselDirection.DOWN);
                     });
-                    this.cmd.add(0.25, () -> {
+                    this.cmd.add(0.50, () -> {
                         bot.setCarouselDirection(CarouselDirection.STOP);
                     });
                     this.cmd.add(0.25, () -> {
@@ -379,7 +366,7 @@ public class PedroCloseAutoBase extends OpMode {
                         this.bot.setAssistIntakeDirection(IntakeDirection.IN);
                         this.bot.setScooperState(ScooperState.CATCH);
                         this.bot.setCarouselDirection(CarouselDirection.UP_SLOW);
-                        this.setPathState(10);
+                        this.setPathState(11);
                     });
 
                     this.thirdShootingSequenceDone = true;
@@ -388,28 +375,8 @@ public class PedroCloseAutoBase extends OpMode {
                     this.panelsTelemetry.addData("Command Status", "running sequence");
                     this.cmd.run((double) this.cmdExecutorTimer.getElapsedTime() / 1000);
                 }
-
-                break;
-            case 10:
-                if (!follower.isBusy()) {
-                    follower.followPath(this.paths.Path8, true);
-                    this.setPathState(11);
-                }
                 break;
             case 11:
-                if (!follower.isBusy()) {
-                    follower.followPath(this.paths.Path9, 0.345, true);
-                    this.setPathState(12);
-                }
-                break;
-            case 12:
-                if (!follower.isBusy()) {
-                    this.bot.setCarouselDirection(CarouselDirection.STOP);
-                    follower.followPath(this.paths.Path10, true);
-                    this.setPathState(13);
-                }
-                break;
-            case 13:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */

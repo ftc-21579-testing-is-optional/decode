@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.common.bot.Bot;
 
@@ -95,6 +96,10 @@ public class Yeeter {
     }
 
     public void setPower(double power) {
+//        VoltageSensor voltageSensor = this.bot.hardwareMap.get(VoltageSensor.class, "Control Hub");
+//
+//        double multiplier = 13 / voltageSensor.getVoltage();
+
         this.leftMotor.setPower(power);
         this.rightMotor.setPower(-power);
     }

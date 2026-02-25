@@ -110,7 +110,7 @@ public class PedroFarAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 2nd shot
                     this.cmd.add(0.5, () -> {
@@ -127,7 +127,7 @@ public class PedroFarAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 3rd shoot
                     this.cmd.add(0.5, () -> {
@@ -215,7 +215,7 @@ public class PedroFarAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 2nd shot
                     this.cmd.add(0.25, () -> {
@@ -235,7 +235,7 @@ public class PedroFarAutoBase extends OpMode {
                     });
 
                     // allow yeeter to spin back up
-                    this.cmd.add(1.0, () -> {});
+                    this.cmd.add(2.0, () -> {});
 
                     // 3rd shot
                     this.cmd.add(0.25, () -> {

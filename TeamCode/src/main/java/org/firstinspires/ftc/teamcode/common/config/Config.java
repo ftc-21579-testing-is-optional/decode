@@ -7,7 +7,7 @@ public class Config {
     public static double
             CAROUSEL_ROTATION_POWER = 0.50;
     public static double
-            CAROUSEL_ROTATION_POWER_SLOW = 0.45;
+            CAROUSEL_ROTATION_POWER_SLOW = 0.40;
     public static double
             INTAKE_ROTATION_POWER = 1.00;
     public static double
@@ -19,17 +19,17 @@ public class Config {
     public static double
             YEETER_ROTATION_POWER_LESS = 0.35;
     public static double
-            YEETER_ROTATION_POWER_AUTO = 0.35;
+            YEETER_ROTATION_POWER_AUTO = 0.33;
     public static double
             YEETER_ROTATION_POWER_AUTO_LESS = 0.35;
     public static double
-            YEETER_ROTATION_POWER_AUTO_FAR = 0.45;
+            YEETER_ROTATION_POWER_AUTO_FAR = 0.475;
     public static double
-            SCOOPER_RECYCLE_POSITION = 0.45; // 0.42
+            SCOOPER_RECYCLE_POSITION = 0.48; // 0.45; // 0.42
     public static double
-            SCOOPER_CATCH_POSITION = 0.58; // 0.55
+            SCOOPER_CATCH_POSITION = 0.60; // 0.58; // 0.55
     public static double
-            SCOOPER_YEET_POSITION = 0.82; // 0.80
+            SCOOPER_YEET_POSITION = 0.85; // 0.82; // 0.80
     public static double
             DEADZONE = 0.15;
     public static boolean

@@ -20,7 +20,7 @@ public class ClosePathsBlue extends ClosePathsBase {
                         new BezierLine(
                                 new Pose(59.421, 95.950),
 
-                                new Pose(44.215, 86.380)
+                                new Pose(44.215 + 3, 86.380 - 1)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(144), Math.toRadians(180))
 
@@ -28,9 +28,9 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path3 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(44.215, 86.380),
+                                new Pose(44.215 + 3, 86.380 - 1),
 
-                                new Pose(21.405, 85.727)
+                                new Pose(21.405, 85.727 - 1)
                         )
                 ).setTangentHeadingInterpolation()
 
@@ -38,7 +38,7 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path4 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(21.405, 85.727),
+                                new Pose(21.405, 85.727 - 1),
 
                                 new Pose(59.496, 96.025)
                         )
@@ -50,7 +50,7 @@ public class ClosePathsBlue extends ClosePathsBase {
                         new BezierLine(
                                 new Pose(59.496, 96.025),
 
-                                new Pose(43.765, 61.775)
+                                new Pose(43.765 + 3, 61.775 - 1)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(144), Math.toRadians(180))
 
@@ -58,9 +58,9 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path6 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(43.765, 61.775),
+                                new Pose(43.765 + 3, 61.775 - 1),
 
-                                new Pose(22.140, 61.570)
+                                new Pose(22.140, 61.570 - 1)
                         )
                 ).setTangentHeadingInterpolation()
 
@@ -68,7 +68,7 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path7 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(22.140, 61.570),
+                                new Pose(22.140, 61.570 - 1),
 
                                 new Pose(59.256, 96.033)
                         )
@@ -80,7 +80,7 @@ public class ClosePathsBlue extends ClosePathsBase {
                         new BezierLine(
                                 new Pose(59.256, 96.033),
 
-                                new Pose(43.050, 37.793)
+                                new Pose(43.050 + 3, 37.793 - 1)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(144), Math.toRadians(180))
 
@@ -88,9 +88,9 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path9 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(43.050, 37.793),
+                                new Pose(43.050 + 3, 37.793 - 1),
 
-                                new Pose(21.256, 37.826)
+                                new Pose(21.256, 37.826 - 1)
                         )
                 ).setTangentHeadingInterpolation()
 
@@ -98,9 +98,9 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path10 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(21.256, 37.826),
+                                new Pose(21.256, 37.826 - 1),
 
-                                new Pose(59.446 - 36, 95.934 - 36)
+                                new Pose(59.446 - 24, 95.934 - 36)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(144))
 
@@ -108,7 +108,7 @@ public class ClosePathsBlue extends ClosePathsBase {
 
         Path11 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(59.446, 95.934),
+                                new Pose(59.446 - 24, 95.934 - 36),
 
                                 new Pose(43.116, 78.860)
                         )
